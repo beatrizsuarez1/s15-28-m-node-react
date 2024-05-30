@@ -1,2 +1,3 @@
 # s15-28-m-node-react
-Respaldo No Country
+
+Para iniciar el proyecto ejecutar `pnpm run dev` o `npm run dev`, recuerda instalar los paquetes antes de ejecutar con `pnpm install`
