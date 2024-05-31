@@ -1,0 +1,5 @@
+{
+  "watch": ["src"],
+  "ext": "ts,yaml",
+  "exec": "pnpx ts-node src/index.ts"
+}

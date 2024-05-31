@@ -1,0 +1,672 @@
+openapi: 3.0.3
+info:
+  title: s15-28-m-node-react
+  version: 1.0.0
+  description: |-
+    [NameApp] Freelance es una plataforma innovadora diseñada para optimizar la gestión de proyectos y tareas de freelancers. Con [NameApp] Freelance, los profesionales independientes pueden manejar eficientemente múltiples proyectos simultáneamente, lo que les permite maximizar su productividad y aumentar sus ingresos.
+
+    Esta api realiza: 
+    - Operaciones CRUD, para el manejo de los datos de los usuarios.
+    - Operaciones de autenticación, para el acceso de usuarios y de la consulta.
+
+    Algunos links de interés:
+    - [![](https://img.shields.io/badge/Repositorio-76908e?logo=github)](https://github.com/No-Country/s15-28-m-node-react)
+    - [![Deploy](https://vercel.com/button)]()
+
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Development server
+
+tags:
+  - name: Auth
+    description: Operations about authentication
+  - name: User
+    description: Operations about user
+  - name: Team
+    description: Operations about team
+  - name: Project
+    description: Operations about project
+  - name: Utils
+    description: Operations about utils
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: apikey
+
+  schemas:
+    User:
+      type: object
+      properties:
+        uuid:
+          type: string
+          example: 12345678-1234-1234-1234-111111111111
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Smith
+        email:
+          type: string
+          example: johndoe@example.com
+        avatar:
+          type: string
+          example: https://example.com/avatar.jpg
+        phone:
+          type: string
+          example: +1 123-456-7890
+        birthdate:
+          type: string
+          example: 05/22/1999
+        role_id:
+          type: number
+          example: 1
+    UserInput:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: User's first name
+          example: John
+        last_name:
+          type: string
+          description: User's last name
+          example: Smith
+        email:
+          type: string
+          description: User's email address
+          example: user@example.com
+        password:
+          type: string
+          description: User's password
+          example: yourPassword123
+        phone:
+          type: string
+          description: User's phone number
+          example: +1 123-456-7890
+        birthdate:
+          type: string
+          description: User's birthdate
+          example: 05/22/1999
+        role_id:
+          type: number
+          description: User's role ID (1 or 2) (1 = freelancer, 2 = client)
+          example: 1
+    Team:
+      type: object
+      properties:
+        uuid:
+          type: string
+          example: 12345678-1234-1234-1234-111111111111
+        name:
+          type: string
+          example: Team 1
+        description:
+          type: string
+          example: Team 1 description
+    Role:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: freelance
+    Status:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: active
+    Label:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: label 1
+    Project:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Project 1
+        description:
+          type: string
+          example: Project 1 description
+        price_hour:
+          type: number
+          example: 10.00
+        email_client:
+          type: string
+          example: johndoe@example.com
+  parameters:
+    UUID:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 12345678-1234-1234-1234-111111111111
+
+  responses:
+    400:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Invalid request parameters
+    401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Unauthorized.
+    404:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: dato no encontrado.
+    500:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Error interno del servidor.
+
+security:
+  - ApiKeyAuth: []
+
+paths:
+  /auth/login:
+    post:
+      summary: Login a user
+      tags: [Auth]
+      requestBody:
+        description: User login credentials
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: User's email address
+                  example: user@example.com
+                password:
+                  type: string
+                  description: User's password
+                  example: yourPassword123
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: El inicio de sesión ha sido exitoso.
+                  token:
+                    type: string
+                    description: JWT token for authenticated requests
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /auth/register:
+    post:
+      summary: Register a new user
+      tags: [Auth]
+      requestBody:
+        description: User registration data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '201':
+          description: User successfully registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User registered successfully.
+                  data:
+                    $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /user:
+    get:
+      summary: Get all users
+      tags:
+        - User
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Users retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Lista de usuarios realizada con éxito.
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /user/{id}:
+    get:
+      summary: Get a user by ID
+      tags:
+        - User
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      responses:
+        '200':
+          description: User retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+
+    put:
+      summary: Update a user
+      tags:
+        - User
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      requestBody:
+        description: User update data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '200':
+          description: User successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User updated successfully.
+                  data:
+                    $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+
+    delete:
+      summary: Delete a user
+      tags:
+        - User
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      responses:
+        '200':
+          description: El usuario ha sido eliminado con éxito.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: El usuario ha sido eliminado con exito.
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /team:
+    get:
+      summary: Get all teams
+      tags:
+        - Team
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Teams retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '500':
+          $ref: '#/components/responses/500'
+
+    post:
+      summary: Create a new team
+      tags:
+        - Team
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        description: Team creation data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Team'
+      responses:
+        '201':
+          description: Team successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Team created successfully.
+
+        '500':
+          $ref: '#/components/responses/500'
+
+  /team/{id}:
+    get:
+      summary: Get a team by ID
+      tags:
+        - Team
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      responses:
+        '200':
+          description: Team retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+
+    put:
+      summary: Update a team
+      tags:
+        - Team
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      requestBody:
+        description: Team update data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Team'
+      responses:
+        '200':
+          description: Team successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '400':
+          description: team not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Team not found
+        '500':
+          $ref: '#/components/responses/500'
+
+    delete:
+      summary: Delete a team
+      tags:
+        - Team
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      responses:
+        '200':
+          description: Team deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Team deleted successfully
+          '404':
+            description: team not found
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: Team not found
+          '500':
+            $ref: '#/components/responses/500'
+
+  /roles:
+    get:
+      summary: Get all roles
+      tags:
+        - Utils
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Roles retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+        '500':
+          $ref: '#/components/responses/500'
+  /status:
+    get:
+      summary: Get all status
+      tags:
+        - Utils
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '500':
+          $ref: '#/components/responses/500'
+  /labels:
+    get:
+      summary: Get all labels
+      tags:
+        - Utils
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Labels retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Label'
+        '500':
+          $ref: '#/components/responses/500'
+  /project:
+    get:
+      summary: Get all projects
+      tags:
+        - Project
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Projects retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: Create a new project
+      tags:
+        - Project
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        description: Project creation data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '201':
+          description: Project successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /project/{id}:
+    get:
+      summary: Get a project by ID
+      tags:
+        - Project
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      responses:
+        '200':
+          description: Project retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      summary: Update a project
+      tags:
+        - Project
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      requestBody:
+        description: Project update data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '200':
+          description: Project successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+
+    delete:
+      summary: Delete a project
+      tags:
+        - Project
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      responses:
+        '200':
+          description: Project deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Project deleted successfully
+          '500':
+            $ref: '#/components/responses/500'
