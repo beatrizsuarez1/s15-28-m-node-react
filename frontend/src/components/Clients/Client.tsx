@@ -4,16 +4,17 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import {TableClient} from './TableClient';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { Person, Result } from '../../Types/person';
 
 export const Client = () => {
 
-  const [data, setData] = useState({})
+  const [data, setData] = useState<Result[]>()
 
   const getClients = () => {
     axios.get('https://randomuser.me/api/?results=10')
       .then(response => {
-        const { results: data } = response.data;
-        setData(data);
+        const data: Person = response.data;
+        setData(data.results);
       })
       .catch(error => {
         console.log(error);
@@ -91,7 +92,7 @@ export const Client = () => {
           </thead>
           <tbody>
             {
-              data && data.length > 0 ? data.map((item, index) => <TableClient key={index} data={item}/>) : <p>No hay datos</p>
+              data && data.map((item, index) => <TableClient key={index} data={item}/>)
             }
           </tbody>
         </table>

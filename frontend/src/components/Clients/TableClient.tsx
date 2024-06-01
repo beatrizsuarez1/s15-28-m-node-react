@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
+import { Result } from "../../Types/person";
 
 
-export const TableClient = ({data}) => {
-  
+export const TableClient = ({data}: {data: Result}) => {
   const [state, setState] = useState('')
   const { email, picture, name  } = data
   const { first, last } = name

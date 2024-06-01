@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, CssBaseline } from '@mui/material';
 import { Header } from '../components/Header';
-import Sidebar from '../components/Sidebar/Sidebar';
-import { useAuth } from '../context/auth-context';
+// import Sidebar from '../components/sidebar/Sidebar';
+// import { useAuth } from '../context/auth-context';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // const { isLoggedIn } = useAuth();
