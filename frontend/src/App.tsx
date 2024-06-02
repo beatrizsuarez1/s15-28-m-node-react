@@ -8,18 +8,20 @@ import MainContent from './components/MainContent';
 import Register from './components/users/register';
 import { Projects } from './pages/Projects';
 import { Clients } from './pages/Clients';
+import Landing from './pages/Landing';
 
 const App: React.FC = () => {
   return (
     <AuthProvider>
       <Router>
         <Routes>
+          <Route path='/' element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path='/register' element={<Register/>}/>
           <Route path="/dashboard" element={<Layout><MainContent /></Layout>} />
           <Route path='/dashboard/projects' element={<Layout><Projects/></Layout>} />
           <Route path='/dashboard/clients' element={<Layout><Clients/></Layout>} />
-          <Route path="*" element={<Login />} />
+          <Route path="*" element={<Landing />} />
         </Routes>
       </Router>
     </AuthProvider>
