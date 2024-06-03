@@ -1,7 +1,7 @@
 export const linkStyles = {
   position: "relative",
   color: "#eff6ff",
-  fontSize: "1.6vh",
+  fontSize: "1rem",
   fontWeight: "400",
   textDecoration: "none",
   "&::after": {
