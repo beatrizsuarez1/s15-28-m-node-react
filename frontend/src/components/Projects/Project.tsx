@@ -1,10 +1,28 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, Modal, Typography } from '@mui/material';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import { data } from './data';
 import { TableProject } from './TableProject';
+import { useState } from 'react';
+import { style } from './styles/styles';
+import type { DataType } from '../../types/DataType';
 
 export const Project = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState<DataType>({
+    name: '',
+    client: '',
+    date_in: '',
+    date_out: '',
+    status: '',
+    email_client: '',
+  });
 
+  const handleCloseModal = () => setShowModal(false);
+
+  const modal = (data: DataType) => {
+    setModalData(data); // Store data in state
+    setShowModal(true); // Show modal
+  };
 
   return (
     <>
@@ -12,7 +30,7 @@ export const Project = () => {
         component="div"
         sx={{ display: 'flex', alignItems: 'center', mt: 6, mb: 2 }}
       >
-        <Box component="h3" sx={{ mr: 2, fontWeight: 'bold', fontSize: 20, }}>
+        <Box component="h3" sx={{ mr: 2, fontWeight: 'bold', fontSize: 20 }}>
           Proyectos
         </Box>
         <Button>
@@ -75,13 +93,117 @@ export const Project = () => {
             </tr>
           </thead>
           <tbody>
-            {
-              data.map((project, index)  => <TableProject key={index} data={project}/>)
-                
-            }
+            {data.map((project, index) => (
+              <TableProject key={index} data={project} modal={modal} />
+            ))}
           </tbody>
         </table>
       </div>
+
+      <Modal
+        open={showModal}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Box
+            component="div"
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              mt: 6,
+              mb: 2,
+              justifyContent: 'space-between',
+            }}
+          >
+            <Box
+              component="h3"
+              sx={{ mr: 2, fontWeight: 'bold', fontSize: 20 }}
+            >
+              {modalData.name}
+            </Box>
+            <Button>Asignar Tareas</Button>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                width: '60%',
+              }}
+            >
+              <div>
+                <Typography
+                  component="h5"
+                  sx={{ fontWeight: 'bold', fontSize: 20 }}
+                >
+                  Descripción
+                </Typography>
+                <Typography>{modalData.description}</Typography>
+              </div>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                mt: 6,
+                mb: 2,
+                flexDirection: 'column',
+                width: '20%',
+                gap: 2,
+              }}
+            >
+              <div className="flex flex-col">
+                <span className="text-xs">Fecha Inichal: </span>
+                <p className="font-bold">{modalData.date_in}</p>
+              </div>
+              <div className="flex flex-col">
+                <p className="text-xs">Fecha estipulada: </p>{' '}
+                <p className="font-bold">{modalData.date_out}</p>
+              </div>
+            </Box>
+          </Box>
+          <Box>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                mt: 3,
+                mb: 2,
+                gap: 2,
+                justifyContent: 'center',
+              }}
+            >
+              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded">
+                Completado
+              </div>
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded">
+                Pendiente
+              </div>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              mt: 3,
+              mb: 2,
+              gap: 2,
+              justifyContent: 'center',
+            }}
+          >
+            <button className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-2 rounded">
+              Eliminar proyecto
+            </button>
+          </Box>
+        </Box>
+      </Modal>
     </>
   );
 };

@@ -1,17 +1,22 @@
-interface Props {
-  name: string;
-  client: string;
-  date_in: string;
-  date_out: string;
-  status: string;
-  email_client: string;
+import type { DataType } from '../../types/DataType';
+
+interface Modal {
+  (data: DataType): void;
 }
 
-export const TableProject = ({ data }: { data: Props }) => {
-
+export const TableProject = ({
+  data,
+  modal,
+}: {
+  data: DataType;
+  modal: Modal;
+}) => {
   return (
     <>
-      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+      <tr
+        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+        onClick={() => modal(data)}
+      >
         <td className="w-4 p-4"></td>
         <th className="flex items-center px-2 py-4 text-gray-900 whitespace-nowrap dark:text-white">
           <div className="ps-3 text-base font-semibold">{data.name}</div>
