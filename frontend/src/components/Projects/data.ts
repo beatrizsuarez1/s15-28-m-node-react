@@ -1,0 +1,42 @@
+export const data = [
+  {
+    'name': "Inmobiliaria Sol Naciente",
+    'client': "Jacob Roberts",
+    'email_client': "jacobroberts@me.com",
+    'date_in': "2022-01-01",
+    'date_out': "2022-01-31",
+    'status': "Pendiente",
+  },
+  {
+    'name': "E-Commerce Supermercado Casa Blanca",
+    'client': "Fernando Torres",
+    'email_client': "fernando@me.com",
+    'date_in': "2022-02-01",
+    'date_out': "2022-02-28",
+    'status': "Pendiente",
+  },
+  {
+    'name': "Bot Telegram",
+    'client': "Camilo Salazar",
+    'email_client': "camilo@me.com",
+    'date_in': "2022-03-01",
+    'date_out': "2022-03-31",
+    'status': "Pendiente",
+  },
+  {
+    'name': "Crear sitio web joyeria",
+    'client': "Oscar Hernandez",
+    'email_client': "oscar@me.com",
+    'date_in': "2022-04-01",
+    'date_out': "2022-04-30",
+    'status': "Completo",
+  },  
+  {
+    'name': "Crear sitio web tienda de ropa",
+    'client': "Yohana Perez",
+    'email_client': "yohana@me.com",
+    'date_in': "2022-05-01",
+    'date_out': "2022-05-31",
+    'status': "Completo",
+  },  
+] 

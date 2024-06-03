@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Result } from "../../Types/person";
+import { Result } from "../../types/person";
 
 
 export const TableClient = ({data}: {data: Result}) => {
