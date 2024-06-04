@@ -8,6 +8,7 @@ import MainContent from './components/MainContent';
 import Register from './components/users/register';
 import { Projects } from './pages/Projects';
 import { Clients } from './pages/Clients';
+import { Tasks } from './tasks/components/Tasks';
 
 const App: React.FC = () => {
   return (
@@ -15,10 +16,11 @@ const App: React.FC = () => {
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path='/register' element={<Register/>}/>
+          <Route path='/register' element={<Register />} />
+          <Route path='/tasks' element={<Tasks />} />
           <Route path="/dashboard" element={<Layout><MainContent /></Layout>} />
-          <Route path='/dashboard/projects' element={<Layout><Projects/></Layout>} />
-          <Route path='/dashboard/clients' element={<Layout><Clients/></Layout>} />
+          <Route path='/dashboard/projects' element={<Layout><Projects /></Layout>} />
+          <Route path='/dashboard/clients' element={<Layout><Clients /></Layout>} />
           <Route path="*" element={<Login />} />
         </Routes>
       </Router>
@@ -26,12 +28,4 @@ const App: React.FC = () => {
   );
 };
 
-/* const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isLoggedIn } = useAuth();
-  if (!isLoggedIn) {
-    return <Navigate to="/login" />;
-  }
-  return <>{children}</>;
-};
- */
 export default App;

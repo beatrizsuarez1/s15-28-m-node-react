@@ -1,0 +1,7 @@
+.field {
+  field-sizing: content;
+}
+
+.scroll {
+  scrollbar-width: thin;
+}
