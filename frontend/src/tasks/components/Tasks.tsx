@@ -53,15 +53,12 @@ export function Tasks () {
           </div>
           <div className={`${classOptionTasks}`}>
             <span>Etiquetas</span>
-            <span>vacio</span>
-            <SelectGroupChip labels={labels} title={'Etiquetas'} />
+            <div>
+              <SelectGroupChip labels={labels} title={'Tags'} />
+            </div>
           </div>
           <div className={`${classOptionTasks}`}>
             <span>Personas Asignadas</span>
-            <span>vacio</span>
-          </div>
-          <div className={`${classOptionTasks}`}>
-            <span>Prioridad</span>
             <span>vacio</span>
           </div>
           <div className={`${classOptionTasks}`}>

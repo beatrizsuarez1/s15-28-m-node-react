@@ -9,17 +9,6 @@ import Chip from '@mui/material/Chip';
 import { LabelType } from '@/Types/types';
 import { Box } from '@mui/material';
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
 function getStyles (name: string, personName: readonly string[], theme: Theme) {
   return {
     fontWeight:
@@ -50,7 +39,7 @@ export function SelectGroupChip ({ labels, title }: Props) {
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
+      <FormControl sx={{ width: 120 }} >
         <InputLabel id="demo-multiple-chip-label">{title}</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
@@ -66,7 +55,6 @@ export function SelectGroupChip ({ labels, title }: Props) {
               ))}
             </Box>
           )}
-          MenuProps={MenuProps}
         >
           {labels.map((label) => (
             <MenuItem
