@@ -31,7 +31,7 @@ export async function createUser(req: Request, res: Response) {
     if (validateEmail !== null) {
       return res
         .status(400)
-        .json({ message: "El email ya se encuentra registrado." });
+        .json({ message: "El email ya se encuentra registrado. " });
     }
     const hashedPassword = await hash(body.password, 10);
     body.password = hashedPassword;
