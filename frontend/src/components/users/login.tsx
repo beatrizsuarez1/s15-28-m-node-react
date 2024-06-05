@@ -1,52 +1,18 @@
-import React, { useState, FormEvent } from 'react';
-import { Box, Button, Divider, TextField, Typography, IconButton, InputAdornment } from '@mui/material';
-import { FaGoogle, FaGithub, FaLinkedin } from 'react-icons/fa';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-interface Errors {
-  email: string;
-  password: string;
+import { Box, Button, Divider, Typography, IconButton, Stack } from '@mui/material';
+import { FaGoogle, FaGithub, FaLinkedin } from 'react-icons/fa';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginValidation } from '../../Schemas/auth';
+import { TextFieldElement, PasswordElement, useForm } from 'react-hook-form-mui'
+
+type FormLogin = {
+  email: string,
+  password: string,
 }
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [errors, setErrors] = useState<Errors>({ email: '', password: '' });
-  const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const validateEmail = (email: string): boolean => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    let valid = true;
-    const newErrors: Errors = { email: '', password: '' };
-
-    if (!validateEmail(email)) {
-      newErrors.email = 'Please enter a valid email address.';
-      valid = false;
-    }
-
-    if (!password) {
-      newErrors.password = 'Please enter your password.';
-      valid = false;
-    }
-
-    setErrors(newErrors);
-
-    if (valid) {
-      // Submit the form or perform other actions
-      console.log('Form submitted:', { email, password });
-    }
-  };
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
+  const { control, handleSubmit, formState: { isValid } } = useForm<FormLogin>({ resolver: zodResolver(loginValidation) })
   return (
     <Box
       display="flex"
@@ -57,10 +23,12 @@ const Login: React.FC = () => {
     >
       <Box
         p={4}
-        bgcolor="white"
-        borderRadius={2}
-        boxShadow={3}
-        width={300}
+        bgcolor="#f8fafc"
+        borderRadius={3}
+        boxShadow={2}
+        width='80vw'
+        maxWidth={600}
+
       >
         <Typography
           variant="h5"
@@ -70,53 +38,32 @@ const Login: React.FC = () => {
         >
           Login
         </Typography>
-        <form onSubmit={handleSubmit}>
-          <Box mb={2}>
-            <TextField
+        <form onSubmit={handleSubmit((data: FormLogin) => console.log(data))}>
+          <Stack spacing={4}>
+            <TextFieldElement
               fullWidth
-              label="Email"
-              variant="outlined"
-              size="small"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              error={!!errors.email}
-              helperText={errors.email}
+              name={'email'}
+              label={'Email'}
+              control={control}
+              placeholder='correo123@gmail.com'
             />
-          </Box>
-          <Box mb={3}>
-            <TextField
+            <PasswordElement
               fullWidth
-              label="Password"
-              type={showPassword ? 'text' : 'password'}
-              variant="outlined"
-              size="small"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              error={!!errors.password}
-              helperText={errors.password}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
+              name={'password'}
+              label={'Password'}
+              control={control}
+              placeholder='12345678'
             />
-          </Box>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-          >
-            Sign In
-          </Button>
+            <Button
+              fullWidth
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={!isValid}
+            >
+              Sign In
+            </Button>
+          </Stack>
         </form>
         <Divider sx={{ my: 3 }}>
           <Typography
@@ -140,6 +87,7 @@ const Login: React.FC = () => {
       </Box>
     </Box>
   );
+
 };
 
 export default Login;

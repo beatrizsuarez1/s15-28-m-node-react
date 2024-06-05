@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import React from "react";
 import {
   Box,
   Button,
@@ -6,24 +6,25 @@ import {
   IconButton,
   TextField,
   Typography,
-  InputAdornment,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
+
 } from "@mui/material";
 import { FaGithub, FaGoogle, FaLinkedin } from "react-icons/fa";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import {
-  validateName,
-  validateEmail,
-  validatePassword,
-  validatePhone,
-  validateBirthDate,
-} from "./validations";
+import { DateFnsProvider } from 'react-hook-form-mui/date-fns'
+import { DatePickerElement } from "react-hook-form-mui/date-pickers";
+// import {
+//   validateName,
+//   validateEmail,
+//   validatePassword,
+//   validatePhone,
+//   validateBirthDate,
+// } from "./validations";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { registerValidation } from '../../Schemas/auth';
+import { TextFieldElement, PasswordElement, useForm, PasswordRepeatElement } from 'react-hook-form-mui'
 
-interface Errors {
+
+
+interface FormRegister {
   firstName: string;
   lastName: string;
   email: string;
@@ -36,116 +37,120 @@ interface Errors {
 }
 
 const Register: React.FC = () => {
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [role, setRole] = useState<number>(0);
-  const [birthDate, setBirthDate] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
-  const [errors, setErrors] = useState<Errors>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    role: 0,
-    isRole: "",
-    birthDate: "",
-    phone: "",
-  });
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfirmPassword, setShowConfirmPassword] =
-    useState<boolean>(false);
-  const [valid, setValid] = useState<boolean>(true);
- 
+  const { control, handleSubmit, formState: { isValid } } = useForm<FormRegister>({ resolver: zodResolver(registerValidation) })
 
 
-const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
-  e.preventDefault();
-  const newErrors: Errors = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    role: 0,
-    birthDate: "",
-    phone: "",
-  };
 
-  if (!validateName(firstName)) {
-    newErrors.firstName = "Please enter a valid first name.";
-    setValid(false);
-  }
+  //   const [firstName, setFirstName] = useState<string>("");
+  //   const [lastName, setLastName] = useState<string>("");
+  //   const [email, setEmail] = useState<string>("");
+  //   const [password, setPassword] = useState<string>("");
+  //   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  //   const [role, setRole] = useState<number>(0);
+  //   const [birthDate, setBirthDate] = useState<string>("");
+  //   const [phone, setPhone] = useState<string>("");
+  //   const [errors, setErrors] = useState<Errors>({
+  //     firstName: "",
+  //     lastName: "",
+  //     email: "",
+  //     password: "",
+  //     confirmPassword: "",
+  //     role: 0,
+  //     isRole: "",
+  //     birthDate: "",
+  //     phone: "",
+  //   });
+  //   const [showPassword, setShowPassword] = useState<boolean>(false);
+  //   const [showConfirmPassword, setShowConfirmPassword] =
+  //     useState<boolean>(false);
+  //   const [valid, setValid] = useState<boolean>(true);
 
-  if (!validateName(lastName)) {
-    newErrors.lastName = "Please enter a valid last name.";
-    setValid(false);
-  }
 
-  if (!validateEmail(email)) {
-    newErrors.email = "Please enter a valid email address.";
-    setValid(false);
-  }
 
-  if (!validatePassword(password)) {
-    newErrors.password =
-      "Password must be 8-30 characters long and include a number, a symbol, an uppercase and a lowercase letter.";
-    setValid(false);
-  }
+  // const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  //   e.preventDefault();
+  //   const newErrors: Errors = {
+  //     firstName: "",
+  //     lastName: "",
+  //     email: "",
+  //     password: "",
+  //     confirmPassword: "",
+  //     role: 0,
+  //     birthDate: "",
+  //     phone: "",
+  //   };
 
-  if (password !== confirmPassword) {
-    newErrors.confirmPassword = "Passwords do not match.";
-    setValid(false);
-  }
+  //   if (!validateName(firstName)) {
+  //     newErrors.firstName = "Please enter a valid first name.";
+  //     setValid(false);
+  //   }
 
-  if (!role) {
-    newErrors.isRole = "Please select your role.";
-    setValid(false);
-  }
+  //   if (!validateName(lastName)) {
+  //     newErrors.lastName = "Please enter a valid last name.";
+  //     setValid(false);
+  //   }
 
-  if (!birthDate || !validateBirthDate(birthDate)) {
-    newErrors.birthDate = "Please enter a valid birth date.";
-    setValid(false);
-  }
+  //   if (!validateEmail(email)) {
+  //     newErrors.email = "Please enter a valid email address.";
+  //     setValid(false);
+  //   }
 
-  if (!phone && !validatePhone(phone)) {
-    newErrors.phone = "Please enter a valid phone number.";
-    setValid(false);
-  }
-  setErrors(newErrors);
+  //   if (!validatePassword(password)) {
+  //     newErrors.password =
+  //       "Password must be 8-30 characters long and include a number, a symbol, an uppercase and a lowercase letter.";
+  //     setValid(false);
+  //   }
 
-  if (valid) {
-    // Submit the form or perform other actions
-    console.log("Form submitted:", {
-      "first_name": firstName,
-      "last_name": lastName,
-      "email": email,
-      "password": password,
-      "role_id": role,
-      "birthdate": birthDate,
-      "phone": phone,
-    });
-  }
+  //   if (password !== confirmPassword) {
+  //     newErrors.confirmPassword = "Passwords do not match.";
+  //     setValid(false);
+  //   }
 
-  setFirstName("");
-  setLastName("");
-  setEmail("");
-  setPassword("");
-  setConfirmPassword("");
-  setRole(0);
-  setBirthDate("");
-  setPhone("");
-};
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
+  //   if (!role) {
+  //     newErrors.isRole = "Please select your role.";
+  //     setValid(false);
+  //   }
 
-  const handleClickShowConfirmPassword = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
+  //   if (!birthDate || !validateBirthDate(birthDate)) {
+  //     newErrors.birthDate = "Please enter a valid birth date.";
+  //     setValid(false);
+  //   }
+
+  //   if (!phone && !validatePhone(phone)) {
+  //     newErrors.phone = "Please enter a valid phone number.";
+  //     setValid(false);
+  //   }
+  //   setErrors(newErrors);
+
+  //   if (valid) {
+  //     // Submit the form or perform other actions
+  //     console.log("Form submitted:", {
+  //       "first_name": firstName,
+  //       "last_name": lastName,
+  //       "email": email,
+  //       "password": password,
+  //       "role_id": role,
+  //       "birthdate": birthDate,
+  //       "phone": phone,
+  //     });
+  //   }
+
+  //   setFirstName("");
+  //   setLastName("");
+  //   setEmail("");
+  //   setPassword("");
+  //   setConfirmPassword("");
+  //   setRole(0);
+  //   setBirthDate("");
+  //   setPhone("");
+  // };
+  //   const handleClickShowPassword = () => {
+  //     setShowPassword(!showPassword);
+  //   };
+
+  //   const handleClickShowConfirmPassword = () => {
+  //     setShowConfirmPassword(!showConfirmPassword);
+  //   };
 
   return (
     <Box
@@ -170,97 +175,54 @@ const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
         <Typography variant="h5" component="h2" textAlign="center" mb={3}>
           Sign Up
         </Typography>
-        <form onSubmit={handleSubmit}>
-          <Box mb={2}>
-            <TextField
-              fullWidth
-              label="First Name"
-              variant="outlined"
-              size="small"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              error={!!errors.firstName}
-              helperText={errors.firstName}
-            />
-          </Box>
-          <Box mb={2}>
-            <TextField
-              fullWidth
-              label="Last Name"
-              variant="outlined"
-              size="small"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              error={!!errors.lastName}
-              helperText={errors.lastName}
-            />
-          </Box>
-          <Box mb={2}>
-            <TextField
-              fullWidth
-              label="Email"
-              type="email"
-              variant="outlined"
-              size="small"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              error={!!errors.email}
-              helperText={errors.email}
-            />
-          </Box>
-          <Box mb={2}>
-            <TextField
-              fullWidth
-              label="Password"
-              type={showPassword ? "text" : "password"}
-              variant="outlined"
-              size="small"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              error={!!errors.password}
-              helperText={errors.password}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Box>
-          <Box mb={2}>
-            <TextField
-              fullWidth
-              label="Confirm Password"
-              type={showConfirmPassword ? "text" : "password"}
-              variant="outlined"
-              size="small"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              error={!!errors.confirmPassword}
-              helperText={errors.confirmPassword}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle confirm password visibility"
-                      onClick={handleClickShowConfirmPassword}
-                      edge="end"
-                    >
-                      {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Box>
-          <Box mb={2}>
+        <DateFnsProvider>
+          <form onSubmit={handleSubmit((data: FormRegister) => console.log(data))}>
+            <Box mb={2}>
+              <TextFieldElement
+                fullWidth
+                name={'firstName'}
+                label={'Nombre'}
+                control={control}
+                placeholder='Juan'
+              />
+            </Box>
+            <Box mb={2}>
+              <TextFieldElement
+                fullWidth
+                name={'lastName'}
+                label={'Apellido'}
+                control={control}
+                placeholder='perez'
+              />
+            </Box>
+            <Box mb={2}>
+              <TextFieldElement
+                fullWidth
+                name={'email'}
+                label={'Correo'}
+                control={control}
+                placeholder='keeper@gmail.com'
+              />
+            </Box>
+            <Box mb={2}>
+              <PasswordElement
+                fullWidth
+                name={'password'}
+                label={'Contraseña'}
+                control={control}
+                placeholder='12345678'
+              />
+            </Box>
+            <Box mb={2}>
+              <PasswordRepeatElement
+                fullWidth
+                name={'confirmPassword'}
+                label={'Confirma Contraseña'}
+                passwordFieldName={'password'}
+                control={control}
+              />
+            </Box>
+            {/* <Box mb={2}>
             <FormControl
               fullWidth
               variant="outlined"
@@ -284,25 +246,12 @@ const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
                 </Typography>
               )}
             </FormControl>
-          </Box>
-          <Box mb={2}>
-            <TextField
-              fullWidth
-              label="Birth Date"
-              type="date"
-              variant="outlined"
-              size="small"
-              value={birthDate}
-              onChange={(e) => setBirthDate(e.target.value)}
-              error={!!errors.birthDate}
-              helperText={errors.birthDate}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Box>
-          <Box mb={2}>
-            <TextField
+          </Box> */}
+            {/* <DatePickerElement name={'birthDate'} control={control} /> <br /> */}
+
+            <DatePickerElement name={'birthDate'} control={control} /> <br />
+
+            {/* <TextField
               fullWidth
               label="Phone"
               variant="outlined"
@@ -312,11 +261,12 @@ const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
               error={!!errors.phone}
               helperText={errors.phone}
             />
-          </Box>
-          <Button fullWidth type="submit" variant="contained" color="primary">
-            Sign Up
-          </Button>
-        </form>
+          </Box> */}
+            <Button fullWidth type="submit" variant="contained" color="primary">
+              Sign Up
+            </Button>
+          </form>
+        </DateFnsProvider>
         <Divider sx={{ my: 3 }}>
           <Typography variant="body2" color="textSecondary">
             Or Continue With
