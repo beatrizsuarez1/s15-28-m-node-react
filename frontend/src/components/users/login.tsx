@@ -4,11 +4,8 @@ import { FaGoogle, FaGithub, FaLinkedin } from 'react-icons/fa';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginValidation } from '../../Schemas/auth';
 import { TextFieldElement, PasswordElement, useForm } from 'react-hook-form-mui'
+import { FormLogin } from '../../types';
 
-type FormLogin = {
-  email: string,
-  password: string,
-}
 
 const Login: React.FC = () => {
 
@@ -36,7 +33,7 @@ const Login: React.FC = () => {
           textAlign="center"
           mb={3}
         >
-          Login
+          LOGO
         </Typography>
         <form onSubmit={handleSubmit((data: FormLogin) => console.log(data))}>
           <Stack spacing={4}>
@@ -61,7 +58,7 @@ const Login: React.FC = () => {
               color="primary"
               disabled={!isValid}
             >
-              Sign In
+              Iniciar sesión
             </Button>
           </Stack>
         </form>
@@ -70,7 +67,7 @@ const Login: React.FC = () => {
             variant="body2"
             color="textSecondary"
           >
-            Or Continue With
+            O continuar con
           </Typography>
         </Divider>
         <Box display="flex" justifyContent="center" gap={2}>
@@ -84,6 +81,18 @@ const Login: React.FC = () => {
             <FaGithub />
           </IconButton>
         </Box>
+
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          textAlign="center"
+          mt={3}
+        >
+          ¿No tienes una cuenta?{" "}
+          <a href="/register" style={{ color: "#1976d2" }}>
+            Registrarme
+          </a>
+        </Typography>
       </Box>
     </Box>
   );
@@ -91,3 +100,4 @@ const Login: React.FC = () => {
 };
 
 export default Login;
+
