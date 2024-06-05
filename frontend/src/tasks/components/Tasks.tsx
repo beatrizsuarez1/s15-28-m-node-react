@@ -52,7 +52,7 @@ export function Tasks () {
             </div>
           </div>
           <div className={`${classOptionTasks}`}>
-            <span>Etiquetas</span>
+            <span className='mr-4'>Etiquetas</span>
             <div>
               <SelectGroupChip labels={labels} title={'Tags'} />
             </div>

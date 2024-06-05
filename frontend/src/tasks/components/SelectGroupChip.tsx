@@ -39,7 +39,7 @@ export function SelectGroupChip ({ labels, title }: Props) {
 
   return (
     <div>
-      <FormControl sx={{ width: 120 }} >
+      <FormControl sx={{ minWidth: 120 }} >
         <InputLabel id="demo-multiple-chip-label">{title}</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
