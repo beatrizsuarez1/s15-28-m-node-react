@@ -265,7 +265,7 @@ const validateBirthdate = (
   */
   const regexArgDate = [
     {
-      reg: /^\d{4}[-/]\d{2}[-/]\d{2}( \d{2}:\d{2}:\d{2})?$/,
+      reg: /^\d{2}[-/]\d{2}[-/]\d{4}( \d{2}:\d{2}:\d{2})?$/,
       msn: "no es una fecha.",
     },
   ];
