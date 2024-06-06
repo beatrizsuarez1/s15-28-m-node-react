@@ -14,6 +14,25 @@ export const onKeyNumbers = (e: React.KeyboardEvent): void => {
 };
 
 export const formatRegisterData = (data: FormRegister): Omit<FormRegister, 'confirmPassword'> => {
-  const { confirmPassword, ...formatDate } = data
-  return formatDate
+  const { confirmPassword, ...formatDateNew } = data
+  return formatDateNew
 }
+
+export const validateDate = (date:any) => {
+  const today = new Date()
+  const birthdate = new Date(formatDate(date))
+  const age = today.getFullYear() - birthdate.getFullYear()
+
+  if(age > 18) return true
+  if(age > 99) return true
+
+  return false
+}
+
+export const toLowerCase = (str: string) => str.toLowerCase();
+
+export const formatName = (str: string) => {
+  const names = str.split(' '); // Dividir el nombre completo en palabras individuales
+  const formattedNames = names.map(name => name.charAt(0).toUpperCase() + name.slice(1).toLowerCase());
+  return formattedNames.join(' '); // Unir los nombres formateados
+};

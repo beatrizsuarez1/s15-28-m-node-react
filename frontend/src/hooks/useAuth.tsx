@@ -1,6 +1,6 @@
 // import { useNavigate } from "react-router-dom"
 import { registerRequest, loginRequest } from "../api/auth";
-import { FormLogin, FormRegister, useRequestType } from "../types";
+import { FormLogin, FRWithoutConfirm, useRequestType } from "../types";
 import { useAuth } from "../context/auth-context";
 
 
@@ -20,11 +20,14 @@ const useRequest = (): useRequestType => {
         }
     }
 
-    const registerUser = async (data: FormRegister): Promise<void> => {
+    const registerUser = async (data:FRWithoutConfirm): Promise<void> => {
+        
+        console.log(data)
         try {
+            
             const response = await registerRequest(data)
             console.log(response)
-            login()
+            // login()
         } catch (error: any) {
             console.log(error.message)
         }

@@ -7,7 +7,7 @@ const instance = axios.create({
     withCredentials: false,
     headers: {
         'Content-Type': 'application/json',
-        ['apikey']: API_KEY,
+        'apikey': API_KEY,
     }
 })
 

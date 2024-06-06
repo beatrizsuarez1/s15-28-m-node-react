@@ -21,13 +21,14 @@ import { onKeyNumbers, formatRegisterData } from "../../utils/helpers";
 
 const Register: React.FC = () => {
   const { registerUser } = useRequest()
-  const { control, handleSubmit, formState: { isValid } } = useForm<FormRegister>({ resolver: zodResolver(registerValidation) })
+  const { control, handleSubmit, formState: { errors } } = useForm<FormRegister>({ resolver: zodResolver(registerValidation) })
 
   const options = [
     { id: 1, label: 'Freelance' },
     { id: 2, label: 'Cliente' },
 
   ]
+
   return (
     <Box
       display="flex"
@@ -124,7 +125,7 @@ const Register: React.FC = () => {
                 type="submit"
                 variant="contained"
                 color="primary"
-                disabled={!isValid}
+
               >
                 Crear Cuenta
               </Button>
