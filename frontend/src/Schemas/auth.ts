@@ -1,7 +1,14 @@
 import { z } from 'zod'
-
 const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+const caracters = /^(?=.*[!@#$%^&*(),.?":{}|<>]).*$/;
 import { formatDate } from '../utils/helpers';
+
+
+enum UserRole {
+    Freelance = 1,
+    Cliente = 2
+}
+
 
 export const loginValidation = z.object({
     email: z.string().email({
@@ -15,7 +22,7 @@ export const loginValidation = z.object({
 })
 
 export const registerValidation = z.object({
-    firstName: z
+    first_name: z
         .string({ required_error: "Nombre es requerido" })
         .min(3, {
             message: "Debe tener mas de 3 caracteres",
@@ -24,7 +31,7 @@ export const registerValidation = z.object({
         .regex(/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]+$/, {
             message: "No debe contener numeros",
         }),
-    lastName: z
+    last_name: z
         .string({ required_error: "Apellido es requerido" })
         .min(3, {
             message: "Debe tener mas de 3 caracteres",
@@ -41,12 +48,12 @@ export const registerValidation = z.object({
         .min(8, {
             message: "La contraseña debe tener al menos 8 caracteres",
         })
-        .max(12, { message: "La contraseña debe tener menos de 12 caracteres" }),
+        .max(12, { message: "La contraseña debe tener menos de 12 caracteres" })
+        .regex(caracters, { message: "La contraseña debe tener al menos un carácter especial" }),
     confirmPassword: z
         .string(),
-    role: z
-        .enum(['freelance', 'cliente']),
-    birthDate: z.preprocess(arg => {
+    role_id: z.nativeEnum(UserRole, { required_error: "El rol es requerido" }),
+    birthdate: z.preprocess(arg => {
         if (arg instanceof Date) {
             return formatDate(arg);
         }
@@ -62,3 +69,4 @@ export const registerValidation = z.object({
         message: "Las contraseñas no coinciden",
         path: ["confirmPassword"],
     });
+

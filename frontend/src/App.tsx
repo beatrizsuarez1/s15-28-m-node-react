@@ -1,7 +1,6 @@
 // App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes,/*  Navigate */ } from 'react-router-dom';
-import { AuthProvider, /* useAuth */ } from './context/auth-context';
 import Layout from './layout/layout';
 import Login from './components/users/login';
 import MainContent from './components/MainContent';
@@ -12,7 +11,7 @@ import Landing from './pages/Landing';
 
 const App: React.FC = () => {
   return (
-    <AuthProvider>
+    
       <Router>
         <Routes>
           <Route path='/' element={<Landing />} />
@@ -24,7 +23,7 @@ const App: React.FC = () => {
           <Route path="*" element={<Landing />} />
         </Routes>
       </Router>
-    </AuthProvider>
+    
   );
 };
 

@@ -5,10 +5,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginValidation } from '../../Schemas/auth';
 import { TextFieldElement, PasswordElement, useForm } from 'react-hook-form-mui'
 import { FormLogin } from '../../types';
+import useRequest from '../../hooks/useAuth';
 
 
 const Login: React.FC = () => {
-
+  const { loginUser } = useRequest()
   const { control, handleSubmit, formState: { isValid } } = useForm<FormLogin>({ resolver: zodResolver(loginValidation) })
   return (
     <Box
@@ -35,7 +36,7 @@ const Login: React.FC = () => {
         >
           LOGO
         </Typography>
-        <form onSubmit={handleSubmit((data: FormLogin) => console.log(data))}>
+        <form onSubmit={handleSubmit((data: FormLogin) => loginUser(data))}>
           <Stack spacing={4}>
             <TextFieldElement
               fullWidth

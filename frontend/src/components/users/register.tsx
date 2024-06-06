@@ -15,23 +15,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerValidation } from '../../Schemas/auth';
 import { TextFieldElement, PasswordElement, useForm, SelectElement } from 'react-hook-form-mui'
 import { FormRegister } from "../../types"
-
+import useRequest from "../../hooks/useAuth";
+import { onKeyNumbers, formatRegisterData } from "../../utils/helpers";
 
 
 const Register: React.FC = () => {
+  const { registerUser } = useRequest()
   const { control, handleSubmit, formState: { isValid } } = useForm<FormRegister>({ resolver: zodResolver(registerValidation) })
 
   const options = [
-    { id: 'freelance', label: 'Freelance' },
-    { id: 'cliente', label: 'Cliente' },
+    { id: 1, label: 'Freelance' },
+    { id: 2, label: 'Cliente' },
 
   ]
-  const onKeyNumbers = (e: React.KeyboardEvent): void => {
-    if (!/^([0-9])*$/.test(e.key) && e.key !== "Backspace") {
-      e.preventDefault();
-    }
-  };
-
   return (
     <Box
       display="flex"
@@ -63,18 +59,18 @@ const Register: React.FC = () => {
           Regístrate
         </Typography>
         <DateFnsProvider>
-          <form onSubmit={handleSubmit((data: FormRegister) => console.log(data))}>
+          <form onSubmit={handleSubmit((data) => registerUser(formatRegisterData(data)))}>
             <Stack spacing={2}>
               <TextFieldElement
                 fullWidth
-                name={'firstName'}
+                name={'first_name'}
                 label={'Nombre'}
                 control={control}
                 placeholder='Juan'
               />
               <TextFieldElement
                 fullWidth
-                name={'lastName'}
+                name={'last_name'}
                 label={'Apellido'}
                 control={control}
                 placeholder='perez'
@@ -113,15 +109,15 @@ const Register: React.FC = () => {
                   onKeyDown={onKeyNumbers}
                 />
                 <SelectElement
-                  name={'role'}
+                  name={'role_id'}
                   label={'Rol'}
                   control={control}
                   options={options}
-                  sx={{width: '20vw'}}
+                  sx={{ width: '20vw' }}
                 />
               </Stack>
 
-              <DatePickerElement name={'birthDate'} control={control} /> <br />
+              <DatePickerElement name={'birthdate'} control={control} /> <br />
 
               <Button
                 fullWidth
