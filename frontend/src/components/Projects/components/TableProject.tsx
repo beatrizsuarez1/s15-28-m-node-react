@@ -1,14 +1,16 @@
-import type { DataType } from '../../types/DataType';
+import type { IDataType } from "../../../types/ProjectsType";
+
+
 
 interface Modal {
-  (data: DataType): void;
+  (data: IDataType): void;
 }
 
 export const TableProject = ({
   data,
   modal,
 }: {
-  data: DataType;
+  data: IDataType;
   modal: Modal;
 }) => {
   return (

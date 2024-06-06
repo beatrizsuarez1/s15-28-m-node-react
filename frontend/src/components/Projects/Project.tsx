@@ -1,14 +1,16 @@
 import { Box, Button, Modal, Typography } from '@mui/material';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import { data } from './data';
-import { TableProject } from './TableProject';
+import { TableProject } from './components/TableProject';
 import { useState } from 'react';
 import { style } from './styles/styles';
-import type { DataType } from '../../types/DataType';
+import { FormCreateProject } from './components/FormCreateProject';
+import { IDataType } from '../../types/ProjectsType';
 
 export const Project = () => {
   const [showModal, setShowModal] = useState(false);
-  const [modalData, setModalData] = useState<DataType>({
+  const [createModal, setCreateModal] = useState(false);
+  const [modalData, setModalData] = useState<IDataType>({
     name: '',
     client: '',
     date_in: '',
@@ -19,10 +21,14 @@ export const Project = () => {
 
   const handleCloseModal = () => setShowModal(false);
 
-  const modal = (data: DataType) => {
+  const modal = (data: IDataType) => {
     setModalData(data); // Store data in state
     setShowModal(true); // Show modal
   };
+
+  const handleCloseCreateModal = () => setCreateModal(false);
+
+  const handleCreateModal = () => setCreateModal(true);
 
   return (
     <>
@@ -33,10 +39,12 @@ export const Project = () => {
         <Box component="h3" sx={{ mr: 2, fontWeight: 'bold', fontSize: 20 }}>
           Proyectos
         </Box>
-        <Button>
+        <Button onClick={handleCreateModal}>
           <CreateNewFolderIcon />
         </Button>
       </Box>
+
+      <FormCreateProject close={handleCloseCreateModal} open={createModal}/>
 
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-10">
         <div className="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900">
