@@ -2,6 +2,7 @@ import { AppBar, Box, Link, Stack, Toolbar, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { linkStyles, buttonLogin, buttonRegister } from './styles/styles';
 
+
 export const NavBar = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>

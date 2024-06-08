@@ -1,0 +1,21 @@
+// ------------- bugg error con esta plantilla en las solicitudes ------------------
+// export const exampleRequest= async (data ) => {
+//     try {
+//         console.log("Enviando datos a:", BASE_URL + endpoint);
+//         console.log("Datos enviados:", JSON.stringify(data, null, 2));
+//         const response = await axios.post(endpoint, data)
+//         console.log("Respuesta recibida:", response.data);
+//         return response
+//     } catch (error: any) {
+//         if (error.response) {
+//             console.error("Error en la respuesta:", error.response.data);
+//             console.error("Código de error:", error.response.status);
+//             console.error("Headers:", error.response.headers);
+//         } else if (error.request) {
+//             console.error("No se recibió respuesta:", error.request);
+//         } else {
+//             console.error("Error en la solicitud:", error.message);
+//         }
+//         throw error
+//     }
+// }
