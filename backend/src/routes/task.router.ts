@@ -14,7 +14,7 @@ const router = Router();
 
 router.post('/',validateJWT, createTask);
 router.get('/',getAllTasks);
-router.get('/search/:task',searchTasks);
+router.get('/search',searchTasks);
 router.get('/:id' , getTaskById);
 router.patch('/:id',validateJWT, updateTask);
 router.patch('/disable/:id',validateJWT, disableTask);
