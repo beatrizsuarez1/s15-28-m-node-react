@@ -15,10 +15,7 @@ export const loginValidation = z.object({
         message: "Introduzca una dirección de correo electrónico válida",
     }),
     password: z.string()
-        .min(8, {
-            message: "La contraseña debe tener al menos 8 caracteres",
-        })
-        .max(16, { message: "La contraseña debe tener menos de 16 caracteres" }),
+       
 })
 
 export const registerValidation = z.object({
@@ -58,7 +55,7 @@ export const registerValidation = z.object({
         .min(8, {
             message: "La contraseña debe tener al menos 8 caracteres",
         })
-        .max(12, { message: "La contraseña debe tener menos de 12 caracteres" })
+        .max(20, { message: "La contraseña debe tener menos de 12 caracteres" })
         .regex(caracters, { message: "La contraseña debe tener al menos un carácter especial" })
         .regex(capital, { message: "La contraseña debe tener al menos una letra mayúscula" })
         .regex(minuscule, { message: "La contraseña debe tener al menos una letra minúscula" }),

@@ -1,40 +1,42 @@
 import { useNavigate } from "react-router-dom"
 import { registerRequest, loginRequest } from "../api/auth";
 import { FormLogin, FRWithoutConfirm, useRequestType } from "../types";
-import { useAuth } from "../context/auth-context";
+import { toast } from 'react-toastify';
+import { useAuthUser } from "../context/auth-context";
 
 
 
-const useRequest = (): useRequestType => {
+const useAuth = (): useRequestType => {
+    const { setCookie } = useAuthUser()
 
     const navigate = useNavigate();
-    const { isLoggedIn, login, logout } = useAuth()
 
-    const loginUser = async (data: FormLogin): Promise<void> => {
-        console.log(data)
+    const login = async (_data: FormLogin): Promise<void> => {
+
         try {
-            const response = await loginRequest(data)
-            console.log(response)
-            login()
-            navigate('/dashboard')
+            const { data, status } = await loginRequest(_data)
+            if (status === 200) {
+                setCookie('token', data.token, { path: '/' });
+                navigate('/dashboard')
+            }
+
         } catch (error: any) {
-            console.log(error.message)
+            // Estado error.message ==> mensaje por defecto ('Usuario o contraseña incorrecta')
+            toast.error("Usuario o contraseña incorrecta", { position: "bottom-right" });
         }
     }
+    const signUp = async (_data: FRWithoutConfirm): Promise<void> => {
 
-    const registerUser = async (data: FRWithoutConfirm): Promise<void> => {
-
-        console.log(data)
         try {
+            const { status } = await registerRequest(_data)
+            if (status === 201) {
+                navigate('/login')
+            }
 
-            const response = await registerRequest(data)
-            console.log(response.data)
-            login()
-            navigate('/dashboard')
         } catch (error: any) {
-            console.log(error.message)
+            toast.error(error.response.data.message, { position: "bottom-right" });
         }
     }
-    return { loginUser, registerUser }
+    return { login, signUp }
 }
-export default useRequest
+export default useAuth

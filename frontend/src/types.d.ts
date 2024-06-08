@@ -20,6 +20,23 @@ export type FormLogin = {
 export type FRWithoutConfirm = Omit<FormRegister, 'confirmPassword'>;
 
 export interface useRequestType {
-  registerUser: (data: FRWithoutConfirm) => Promise<void>;
-  loginUser: (data: FormLogin) => Promise<void>;
+  signUp: (data: FRWithoutConfirm) => Promise<void>;
+  login: (data: FormLogin) => Promise<void>;
 }
+
+
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+
+}
+export interface AuthContextType {
+  user: User | null;
+  // login: (data: FormLogin) => Promise<void>;
+  // signUp: (data: FRWithoutConfirm) => Promise<void>;
+  logout: Function;
+  isAuthenticated: any;
+  setCookie: Function
+}
+
