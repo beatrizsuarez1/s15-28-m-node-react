@@ -1,5 +1,5 @@
 import { Outlet, Navigate } from 'react-router';
-import { useAuthUser } from './context/auth-context';
+import { useAuthUser } from '../context/auth-context';
 
 const ProtectedRoutes: React.FC = () => {
 

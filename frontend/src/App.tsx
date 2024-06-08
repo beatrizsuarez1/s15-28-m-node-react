@@ -6,16 +6,19 @@ import Register from './components/users/register';
 import { Projects } from './pages/Projects';
 import { Clients } from './pages/Clients';
 import Landing from './pages/Landing';
-import ProtectedRoutes from './PrivateRoute';
-
+import ProtectedRoutes from './routes/PrivateRoute';
+import PublicRoutes from './routes/PublicRoutes';
 const App =
 
   createBrowserRouter(
-      createRoutesFromElements(
+    createRoutesFromElements(
       <>
-        <Route path='/' element={<Landing />} />
-        <Route path="/login" element={<Login />} />
-        <Route path='/register' element={<Register />} />
+        <Route element={<PublicRoutes />}>
+          <Route path='/' element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route path='/register' element={<Register />} />
+        </Route>
+
         <Route path='/' element={<ProtectedRoutes />} >
           <Route path="/dashboard" element={<Layout><MainContent /></Layout>} />
           <Route path='/dashboard/projects' element={<Layout><Projects /></Layout>} />
