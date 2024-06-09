@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { Key } from '../utils/config'
 
-const authorizedHosts = ['localhost:3000']
+const authorizedHosts = ['localhost:3000', 'localhost:5173']
 
 export const isApiKey = (req: Request, res: Response, next: NextFunction) => {
   try {
