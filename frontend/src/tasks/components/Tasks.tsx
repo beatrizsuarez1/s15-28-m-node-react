@@ -6,6 +6,7 @@ import { LabelType, StatusType } from '@/Types/types'
 import { Selected } from './Selected'
 import { getAllLabels } from '@/service/labels.service'
 import { SelectGroupChip } from './SelectGroupChip'
+
 export function Tasks () {
   const [status, setStatus] = useState<StatusType[]>([])
   const [labels, setLabels] = useState<LabelType[]>([])
