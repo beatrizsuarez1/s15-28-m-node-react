@@ -1,11 +1,11 @@
 import { Box, Button, Modal, Typography } from '@mui/material';
 import { style } from '../styles/styles';
-import { IDataType } from '../../../types/ProjectsType';
+import { IProjectResponse } from '../../../types/ProjectsType';
 
 interface Props {
   showModal: boolean;
   close: () => void;
-  data: IDataType;
+  data: IProjectResponse;
 }
 
 export const ModalShowProject = ({ showModal, close, data }: Props) => {
@@ -68,11 +68,11 @@ export const ModalShowProject = ({ showModal, close, data }: Props) => {
           >
             <div className="flex flex-col">
               <span className="text-xs">Fecha Inichal: </span>
-              <p className="font-bold">{data.date_in}</p>
+              <p className="font-bold">{data.init_date}</p>
             </div>
             <div className="flex flex-col">
               <p className="text-xs">Fecha estipulada: </p>{' '}
-              <p className="font-bold">{data.date_out}</p>
+              <p className="font-bold">{data.end_date}</p>
             </div>
           </Box>
         </Box>

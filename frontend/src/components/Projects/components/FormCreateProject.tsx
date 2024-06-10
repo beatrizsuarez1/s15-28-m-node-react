@@ -1,7 +1,7 @@
 import { Box, Modal, Typography } from '@mui/material';
 import { style } from '../styles/styles';
-import { useState } from 'react';
-import type { ICreateProject } from '../../../types/ProjectsType';
+import { ProjectService } from '../../../service/ProjectService';
+// import { useCookies } from 'react-cookie';
 
 export const FormCreateProject = ({
   open,
@@ -10,23 +10,7 @@ export const FormCreateProject = ({
   open: boolean;
   close: () => void;
 }) => {
-  const [formState, setFormState] = useState<ICreateProject>({
-    name: '',
-    description: '',
-    email_client: '',
-    price_hour: 0,
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log(formState);
-    setFormState({
-      name: '',
-      description: '',
-      email_client: '',
-      price_hour: 0,
-    });
-  };
+  const { createProject, formState, setFormState } = ProjectService();
 
   return (
     <Modal
@@ -44,7 +28,7 @@ export const FormCreateProject = ({
         >
           Crear nuevo proyecto
         </Typography>
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-4" onSubmit={createProject}>
           <input
             type="text"
             placeholder="nombre del proyecto"

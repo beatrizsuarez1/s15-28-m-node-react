@@ -1,16 +1,16 @@
-import type { IDataType } from "../../../types/ProjectsType";
+import type { IProjectResponse } from "../../../types/ProjectsType";
 
 
 
 interface Modal {
-  (data: IDataType): void;
+  (data: IProjectResponse): void;
 }
 
 export const TableProject = ({
   data,
   modal,
 }: {
-  data: IDataType;
+  data: IProjectResponse;
   modal: Modal;
 }) => {
   return (
@@ -24,25 +24,25 @@ export const TableProject = ({
           <div className="ps-3 text-base font-semibold">{data.name}</div>
         </th>
         <td className="px-6 py-4">
-          <div className="text-base font-semibold">{data.client}</div>
+          <div className="text-base font-semibold">{data.email_client}</div>
           <div className="font-normal text-gray-500">{data.email_client}</div>
         </td>
         <td className="px-6 py-4">
-          <div className="flex items-center pl-2">{data.date_in}</div>
+          <div className="flex items-center pl-2">{data.init_date}</div>
         </td>
         <td className="px-6 py-4">
-          <div className="flex items-center pl-2">{data.date_in}</div>
+          <div className="flex items-center pl-2">{data.end_date}</div>
         </td>
         <td className="px-6 py-4">
           <div className="flex items-center justify-start">
             <div
               className={`${
-                data.status === 'Completo'
+                data.is_completed === true
                   ? 'bg-green-400 p-2 rounded-lg ml-[-10px] text-white'
                   : 'bg-red-400 p-2 rounded-lg ml-[-10px] text-white'
               } me-2`}
             >
-              {data.status}
+              {data.is_completed === false ? 'Pendiente' : 'Completado'}
             </div>
           </div>
         </td>

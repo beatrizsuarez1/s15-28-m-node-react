@@ -1,31 +1,33 @@
 import { useState } from 'react';
 import { Box, Button } from '@mui/material';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
-import { data } from './data';
 import {
   FormCreateProject,
   ModalShowProject,
   TableProject,
 } from './components';
-import type { IDataType } from '../../types/ProjectsType';
+import type { IProjectResponse, IShowProject } from '../../types/ProjectsType';
+import { useSearchProject } from '../../hooks/useSearchProject';
 
 export const Project = () => {
   const [showModal, setShowModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
-  const [modalData, setModalData] = useState<IDataType>({
+  const [modalData, setModalData] = useState<IShowProject>({
     name: '',
-    client: '',
-    date_in: '',
-    date_out: '',
-    status: '',
     email_client: '',
+    init_date: null,
+    end_date: null,
+    is_completed: false,
+    price_hour: '',
   });
+
+  const { handleSearch, filteredProjects, projects } = useSearchProject();
 
   const handleCloseModal = () => setShowModal(false);
 
-  const modal = (data: IDataType) => {
-    setModalData(data); // Store data in state
-    setShowModal(true); // Show modal
+  const modal = (data: IProjectResponse) => {
+    setModalData(data);
+    setShowModal(true);
   };
 
   const handleCloseCreateModal = () => setCreateModal(false);
@@ -76,6 +78,7 @@ export const Project = () => {
               id="table-search-users"
               className="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Buscar Proyecto"
+              onChange={handleSearch}
             />
           </div>
         </div>
@@ -103,9 +106,19 @@ export const Project = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((project, index) => (
-              <TableProject key={index} data={project} modal={modal} />
-            ))}
+            {filteredProjects.length > 0 ? (
+              filteredProjects.map((project, index) => (
+                <TableProject key={index} data={project} modal={modal} />
+              ))
+            ) : (
+              <p className="absolute top-5 left-[30%] text-red-400 text-lg">
+                Proyecto no encontrado
+              </p>
+            )}
+            {filteredProjects.length === 0 &&
+              projects.map((project, index) => (
+                <TableProject key={index} data={project} modal={modal} />
+              ))}
           </tbody>
         </table>
       </div>
