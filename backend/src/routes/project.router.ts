@@ -11,9 +11,9 @@ import { authenticateToken } from '../middlewares/authApiKey.middleware'
 const router = Router()
 
 router.post('/', authenticateToken, createProject)
-router.get('/', getProjects)
-router.get('/:id', getProjectById)
-router.patch('/:id', updateProject)
-router.delete('/:id', deleteProject)
+router.get('/', authenticateToken, getProjects)
+router.get('/:id', authenticateToken, getProjectById)
+router.patch('/:id', authenticateToken, updateProject)
+router.delete('/:id', authenticateToken, deleteProject)
 
 export { router }

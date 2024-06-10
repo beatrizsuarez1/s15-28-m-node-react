@@ -43,9 +43,9 @@ export async function createProject(req: Request, res: Response) {
   }
 }
 
-export async function getProjects(_req: Request, res: Response) {
+export async function getProjects(req: Request, res: Response) {
   try {
-    const projects = await Project.findAll()
+    const projects = await Project.findAll({ where: { user_uuid: req.userId } })
     return res.status(200).json(projects)
   } catch (error) {
     return res.status(500).json({ message: 'Internal server error' })
@@ -55,7 +55,9 @@ export async function getProjects(_req: Request, res: Response) {
 export async function getProjectById(req: Request, res: Response) {
   try {
     const { id } = req.params
-    const project = await Project.findByPk(id)
+    const project = await Project.findOne({
+      where: { id, user_uuid: req.userId },
+    })
     if (!project) {
       return res.status(404).json({ message: 'Project not found' })
     }
@@ -77,7 +79,7 @@ export async function updateProject(req: Request, res: Response) {
 
     if (error !== 200) return res.status(error).json(message)
 
-    await Project.update(body, { where: { id } })
+    await Project.update(body, { where: { id, user_uuid: req.userId } })
 
     const updatedProject = await Project.findByPk(id)
 
@@ -93,7 +95,14 @@ export async function updateProject(req: Request, res: Response) {
 
 export async function deleteProject(req: Request, res: Response) {
   try {
-    const deleted = await Project.destroy({ where: { id: req.params.id } })
+    const { id } = req.params
+    if (!id) {
+      return res.status(400).json({ message: 'Project ID is required' })
+    }
+
+    const deleted = await Project.destroy({
+      where: { id, user_uuid: req.userId },
+    })
     if (deleted) {
       return res.status(204).json()
     }

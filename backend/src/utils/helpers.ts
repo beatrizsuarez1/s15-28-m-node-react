@@ -26,7 +26,7 @@ export function requeriedFieldsBody({
   }
 
   const invalidFields = Object.keys(body).filter(
-    (field) => !requiredFields.includes(field)
+    (field) => !attributes.includes(field)
   )
   if (invalidFields.length > 0) {
     return [

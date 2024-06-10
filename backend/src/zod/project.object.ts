@@ -10,13 +10,7 @@ const isDateFormatValid = (dateString: string): boolean => {
 const isValidDate = (dateString: string): boolean => {
   const match = dateString.match(/^(\d{2})\/(\d{2})\/(\d{4})$/)
   if (!match) return false
-  const [, day, month, year] = match
-  const date = new Date(`${year}-${month}-${day}`)
-  return (
-    date.getDate() === parseInt(day) &&
-    date.getMonth() + 1 === parseInt(month) &&
-    date.getFullYear() === parseInt(year)
-  )
+  return true
 }
 
 // Función de validación de que no sea menor a 10 años
@@ -28,7 +22,7 @@ const isNotLessThan10Years = (dateString: string): boolean => {
   const currentDate = new Date()
   const tenYearsAgo = new Date()
   tenYearsAgo.setFullYear(currentDate.getFullYear() - 10)
-  return date <= tenYearsAgo
+  return !(date <= tenYearsAgo)
 }
 
 // Función de validación de que no sea hoy o en el futuro
@@ -52,10 +46,10 @@ export const project = z.object({
       message: 'La fecha debe ser válida.',
     })
     .refine(isNotLessThan10Years, {
-      message: 'La fecha no debe ser menor a 10 años.',
+      message: 'La fecha debe ser menor a 10 años.',
     })
     .refine(isNotTodayOrFuture, {
-      message: 'La fecha no debe ser hoy o en el futuro.',
+      message: 'La fecha debe ser hoy o en el futuro.',
     }),
   end_date: z
     .string()
@@ -69,7 +63,7 @@ export const project = z.object({
       message: 'La fecha no debe ser menor a 10 años.',
     })
     .refine(isNotTodayOrFuture, {
-      message: 'La fecha no debe ser hoy o en el futuro.',
+      message: 'La fecha debe ser hoy o en el futuro.',
     }),
   name: z
     .string()
