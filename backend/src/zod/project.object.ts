@@ -79,7 +79,7 @@ export const project = z.object({
     .number()
     .positive({ message: 'El valor debe ser positivo.' })
     .min(0.01, { message: 'El minimo de caracteres es 0.01' })
-    .max(1000, { message: 'El maximo de caracteres es 1000' })
+    .max(9999, { message: 'El maximo de caracteres es 9999' })
     .refine(
       (val) => {
         const stringValue = val.toString()
