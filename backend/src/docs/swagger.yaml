@@ -149,6 +149,69 @@ components:
         email_client:
           type: string
           example: johndoe@example.com
+    Task:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        init_date:
+          type: string
+          format: date-time
+          example: "2023-01-01T00:00:00Z"
+        end_date:
+          type: string
+          format: date-time
+          example: "2023-12-31T23:59:59Z"
+        name:
+          type: string
+          example: "Task Name"
+        is_completed:
+          type: boolean
+          example: false
+        is_active:
+          type: boolean
+          example: true
+        status_uuid:
+          type: string
+          format: uuid
+          example: "456e7891-e12b-34d5-a678-526614174111"
+        custom_label_id:
+          type: integer
+          example: 1
+        label_id:
+          type: string
+          format: uuid
+          example: "789e0123-e45b-67d8-a901-526614174222"
+        project_uuid:
+          type: string
+          format: uuid
+          example: "012e3456-e78b-90d1-a234-526614174333"
+    Invoice:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        total_time:
+          type: string
+          format: time
+          example: "12:00:00"
+        price_hour:
+          type: number
+          format: decimal
+          example: 50.00
+        project_id:
+          type: string
+          format: uuid
+          example: "789e0123-e45b-67d8-a901-526614174222"
+        issue_date:
+          type: string
+          format: date-time
+          example: "2023-06-01T00:00:00Z"
+
   parameters:
     UUID:
       name: id
@@ -157,6 +220,7 @@ components:
       schema:
         type: string
         example: 12345678-1234-1234-1234-111111111111
+
 
   responses:
     400:
@@ -670,3 +734,330 @@ paths:
                     example: Project deleted successfully
           '500':
             $ref: '#/components/responses/500'
+  /task:
+    get:
+      summary: Get all tasks
+      tags:
+        - Task
+      responses:
+        '200':
+          description: Tasks retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: Create a new task
+      tags:
+        - Task
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        description: Task creation data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '201':
+          description: Task successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '500':
+          $ref: '#/components/responses/500'
+  /task/search:
+    get:
+      summary: Search tasks
+      tags:
+        - Task
+      responses:
+        '200':
+          description: Tasks retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /task/{id}:
+    get:
+      summary: Get a task by ID
+      tags:
+        - Task
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      responses:
+        '200':
+          description: Task retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+
+    patch:
+      summary: Update a task
+      tags:
+        - Task
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      requestBody:
+        description: Task update data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '200':
+          description: Task successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+
+    delete:
+      summary: Delete a task
+      tags:
+        - Task
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      responses:
+        '200':
+          description: Task deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Task deleted successfully
+        '500':
+          $ref: '#/components/responses/500'
+
+  /task/disable/{id}:
+    patch:
+      summary: Disable a task
+      tags:
+        - Task
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      requestBody:
+        description: Task disable data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: "disabled"
+      responses:
+        '200':
+          description: Task successfully disabled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/'
+
+  /invoice:
+    get:
+      summary: Get all invoices
+      tags:
+        - Invoice
+      responses:
+        '200':
+          description: Invoices retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Invoice'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: Create a new invoice
+      tags:
+        - Invoice
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        description: Invoice creation data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoice'
+              example:
+                uuid: "123e4567-e89b-12d3-a456-426614174000"
+                total_time: "12:00:00"
+                price_hour: 50.00
+                project_id: "789e0123-e45b-67d8-a901-526614174222"
+                issue_date: "2023-06-01T00:00:00Z"
+      responses:
+        '201':
+          description: Invoice successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      summary: Update an invoice
+      tags:
+        - Invoice
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      requestBody:
+        description: Invoice update data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoice'
+              example:
+                total_time: "10:00:00"
+                price_hour: 60.00
+      responses:
+        '200':
+          description: Invoice successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: Delete an invoice
+      tags:
+        - Invoice
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      responses:
+        '200':
+          description: Invoice deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invoice deleted successfully
+        '500':
+          $ref: '#/components/responses/500'
+  /invoice/{id}:
+    get:
+      summary: Get an invoice by ID
+      tags:
+        - Invoice
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      responses:
+        '200':
+          description: Invoice retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+              example:
+                uuid: "123e4567-e89b-12d3-a456-426614174000"
+                total_time: "12:00:00"
+                price_hour: 50.00
+                project_id: "789e0123-e45b-67d8-a901-526614174222"
+                issue_date: "2023-06-01T00:00:00Z"
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      summary: Update an invoice
+      tags:
+        - Invoice
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      requestBody:
+        description: Invoice update data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoice'
+              example:
+                total_time: "10:00:00"
+                price_hour: 60.00
+      responses:
+        '200':
+          description: Invoice successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: Delete an invoice
+      tags:
+        - Invoice
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      responses:
+        '200':
+          description: Invoice deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invoice deleted successfully
+        '500':
+          $ref: '#/components/responses/500'
