@@ -1,10 +1,10 @@
 
 import { Box, Button } from '@mui/material';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
-import {TableClient} from './TableClient';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Person, Result } from '../../Types/person';
+import { Person, Result } from '../../types/person';
+import { TableClient } from './TableClient';
 
 export const Client = () => {
 

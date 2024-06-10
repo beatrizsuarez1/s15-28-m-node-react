@@ -1,4 +1,4 @@
-import { Client } from '../components/Clients/Client'
+import { Client } from '../components/clients/Client'
 
 export const Clients = () => {
   return (
