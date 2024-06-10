@@ -31,7 +31,6 @@ export async function getAllTasks(_req: Request, res: Response) {
   try {
     const getalltask = await Task.findAll()
     if (getalltask.length === 0) return res.status(404).json({ message: 'no existen tareas disponibles' });
-
     if (!getalltask) return res.status(404).json({ message: 'no te traes la tarea deseada' })
     res.status(200).json({
       message: 'Se traen todas las tareas correctamente',
@@ -68,11 +67,9 @@ export async function getTaskById(req: Request, res: Response) {
 export async function searchTasks(req: Request, res: Response) {
   try {
     const { name } = req.query;
-
     if (!name || typeof name !== 'string') {
       return res.status(400).json({ message: 'El nombre es requerido y debe ser una cadena de texto' });
     }
-
     const searchtask = await Task.findAll({
       where: {
         name: {
@@ -101,28 +98,19 @@ export async function updateTask(req: Request, res: Response) {
     const id = req.params.id
     if (!id) return res.status(401).json({ message: 'El id es requerido' })
     const task = req.body
-    if(!task) return res.status(400).json({message:'hacel falta un dato'})
-    
-    // Validar los campos usando la función validateFieldsTask
+    if(!task) return res.status(400).json({message:'hacel falta un dato'})    
     const validateField = validateFieldsTask(task);
     if (validateField !== true) return res.status(400).json({ message: 'Datos inválidos', errors: validateField });
 
     const validateBodyInModel = validateFieldsTask(task)
-    if (validateBodyInModel !== true) return res.status(400).json({ message: 'falta un dato en el cuerpo de la peticion', validateBodyInModel });
-    
-    // Obtener la tarea por su ID
+    if (validateBodyInModel !== true) return res.status(400).json({ message: 'falta un dato en el cuerpo de la peticion', validateBodyInModel });    
     const existingTask = await Task.findByPk(id);
     if (!existingTask) return res.status(404).json({ message: 'La tarea no ha sido encontrada' });
-
-    // Actualizar la tarea
-    await existingTask.update(task);
-    
+    await existingTask.update(task);    
     const updateTask = await task.update(req.body)
     return res.status(201).json({ message: 'la tarea fue actualizada', updateTask })
   } catch (error) {
     if (error instanceof Error) {
-      // if (error.message.includes('task.update is not a function'))
-      //   return res.status(400).json({ message: 'El UUID proporcionado es inválido. Asegúrese de que tiene el formato correcto. :D' });
       return res.status(500).json({ message: error.message })
     } else {
       return res.status(500).json({ message: 'La actualización de la tarea tiene un error interno del Servidor.' })
@@ -134,15 +122,8 @@ export async function disableTask(req: Request, res: Response) {
     const id = req.params.id
     if (!id) res.status(401).json({ message: 'El id es requerido' })
     const task = req.body
-    // const validationZod = taskSchema.safeParse(task);
-    // console.log(validationZod);
-    // if (!validationZod.success) {
-    //   const errors = validationZod.error.errors.map((err) => err.message);
-    //   return res.status(404).json({ message: 'Error en la solicitud de los datos', errors });
-    // }
     const validate = validateFieldsTask(task)
     if (validate !== true) return res.status(400).json({ message: 'falta un dato en el cuerpo de la peticion', validate })
-
     if (!task) return res.status(404).json({ message: 'la tarea no existe', task });
     const deletedTask = await task.update({ isactive: false })
     return res.status(201).json({ message: 'la tarea fue eliminada correctamente', deletedTask });
@@ -163,7 +144,6 @@ export async function deleteTask(req: Request, res: Response) {
     const task = req.body
     const validate = validateFieldsTask(task)
     if (validate !== true) return res.status(400).json({ message: 'falta un dato en el cuerpo de la peticion', validate })
-    // const task = await Task.findByPk(req.params.id);
     if (!task) return res.status(404).json({ message: 'la tarea no existe', task });
     const deletedTask = await task.destroy(req.body)
     return res.status(201).json({ message: 'la tarea consultada fue eliminada correctamente', deletedTask })
