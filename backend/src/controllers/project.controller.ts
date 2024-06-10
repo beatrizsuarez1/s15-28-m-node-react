@@ -56,7 +56,7 @@ export async function getProjectById(req: Request, res: Response) {
   try {
     const { id } = req.params
     const project = await Project.findOne({
-      where: { id, user_uuid: req.userId },
+      where: { uuid: id, user_uuid: req.userId },
     })
     if (!project) {
       return res.status(404).json({ message: 'Project not found' })
@@ -71,6 +71,7 @@ export async function updateProject(req: Request, res: Response) {
   try {
     const { id } = req.params
     const { body } = req
+    if (!id) return res.status(400).json({ message: 'Project ID is required' })
     const [error, message] = optionalFieldBody({
       body: body,
       model: Project,
@@ -79,17 +80,16 @@ export async function updateProject(req: Request, res: Response) {
 
     if (error !== 200) return res.status(error).json(message)
 
-    await Project.update(body, { where: { id, user_uuid: req.userId } })
+    await Project.update(body, { where: { uuid: id, user_uuid: req.userId } })
 
     const updatedProject = await Project.findByPk(id)
-
     if (!updatedProject) {
       return res.status(404).json({ message: 'Project not found' })
     }
 
     return res.status(200).json(updatedProject)
   } catch (error) {
-    return res.status(500).json({ message: 'Internal server error' })
+    return res.status(500).json({ message: 'Internal server error', error })
   }
 }
 
@@ -101,7 +101,7 @@ export async function deleteProject(req: Request, res: Response) {
     }
 
     const deleted = await Project.destroy({
-      where: { id, user_uuid: req.userId },
+      where: { uuid: id, user_uuid: req.userId },
     })
     if (deleted) {
       return res.status(204).json()
