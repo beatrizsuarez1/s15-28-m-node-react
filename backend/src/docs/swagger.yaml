@@ -26,6 +26,8 @@ tags:
     description: Operations about team
   - name: Project
     description: Operations about project
+  - name: Stopwatch
+    description: Operations about stopwatch
   - name: Utils
     description: Operations about utils
 
@@ -149,6 +151,19 @@ components:
         email_client:
           type: string
           example: johndoe@example.com
+    Stopwatch:
+      type: object
+      properties:
+        uuid:
+          type: string
+          example: 12345678-1234-1234-1234-111111111111
+        time:
+          type: string
+          example: 00:10:00
+        task_id:
+          type: string
+          example: 12345678-1234-1234-1234-111111111111
+
   parameters:
     UUID:
       name: id
@@ -670,3 +685,94 @@ paths:
                     example: Project deleted successfully
           '500':
             $ref: '#/components/responses/500'
+
+  /stopwatch/{uuid}:
+    get:
+      summary: Get a stopwatch
+      tags:
+        - Stopwatch
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      responses:
+        '200':
+          description: Stopwatch retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stopwatch'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+
+    put:
+      summary: Update a stopwatch
+      tags:
+        - Stopwatch
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      requestBody:
+        description: Stopwatch update data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Stopwatch'
+      responses:
+        '200':
+          description: Stopwatch successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stopwatch'
+        '400':
+          $ref: '#/components/responses/400'
+
+    delete:
+      summary: Delete a stopwatch
+      tags:
+        - Stopwatch
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      responses:
+        '200':
+          description: Stopwatch deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Stopwatch deleted successfully
+        '500':
+          $ref: '#/components/responses/500'
+  /stopwatch:
+    post:
+      summary: Create a new stopwatch
+      tags:
+        - Stopwatch
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        description: Stopwatch creation data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Stopwatch'
+      responses:
+        '201':
+          description: Stopwatch successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stopwatch'
+        '500':
+          $ref: '#/components/responses/500'
