@@ -5,18 +5,12 @@ import { router } from './routes'
 import { isApiKey } from './middlewares/apiKey.middleware'
 import { excludeRoutes } from './utils/helpers'
 import cookieParser from 'cookie-parser'
-import { hostFront } from './utils/config'
 
 const app = express()
 
 // Middlewares
 app.use(express.json())
-app.use(
-  cors({
-    origin: hostFront,
-    credentials: true,
-  })
-)
+app.use(cors())
 app.use(morgan('dev'))
 app.use(cookieParser())
 app.disable('x-powered-by')
