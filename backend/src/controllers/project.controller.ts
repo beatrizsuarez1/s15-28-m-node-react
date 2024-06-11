@@ -8,23 +8,6 @@ import {
 } from '../utils/helpers'
 import { project } from '../zod/project.object'
 import { format } from '@formkit/tempo'
-/*
-{
-  "is_completed": false,
-  "is_active": true,
-  "name": "proyecto 5",
-  "price_hour": "5.00",
-  "description": "proyecto 5",
-  "email_client": "cliente12@gmail.com",
-  "init_date": "30/06/2024",
-  "status_uuid": "cb01e587-9501-4370-9fd0-d2ab7b3e07d3",
-  "user_uuid": "5c0cbcf8-3331-4421-972a-5f8f856f2caa",
-  "uuid": "42592ab0-e7c9-4689-99f0-332ef71e92f1",
-  "end_date": "Invalid date",
-  "id_cliente": "47dd4d68-7729-4db4-ba7b-2b827d6657d4",
-  "custom_label_id": null
-}
-*/
 
 function formateReturnProject(bodyFields: any) {
   const { dataValues: body } = bodyFields
