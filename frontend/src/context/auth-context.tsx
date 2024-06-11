@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (decoded.exp && decoded.exp * 1000 < Date.now()) {
         delet
         return false
-      };
+      }
       return true;
     } catch (error) {
       delet

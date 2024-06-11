@@ -16,8 +16,12 @@ app.use(cookieParser())
 app.disable('x-powered-by')
 
 // Routes
-const routesWithoutApiKey = ['/api/v1/docs', '/api/docs']
+const routesWithoutApiKey = ['/api/v1/docs', '/api/docs', '/']
 app.use(excludeRoutes(routesWithoutApiKey, isApiKey))
 app.use(router)
+
+app.get('/', (_, res) => {
+  res.send('Hello World!')
+})
 
 export default app
