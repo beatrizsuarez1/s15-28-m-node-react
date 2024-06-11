@@ -1,6 +1,7 @@
 import { type ModelStatic, type Model } from 'sequelize'
 import { ZodError } from 'zod'
 import { Request, Response, NextFunction } from 'express'
+import moment from 'moment'
 
 interface Props {
   body: any
@@ -69,7 +70,7 @@ export function messageError(error: ErrorType): ErrorTypeResponse {
     return [
       500,
       {
-        message: 'Error creating the team',
+        message: 'Internal server error in validations',
         error: error.issues.map(({ message, path }) => {
           return `${message} en el campo ${path.join('.')}`
         }),
@@ -81,7 +82,7 @@ export function messageError(error: ErrorType): ErrorTypeResponse {
     return [
       500,
       {
-        message: 'Error creating the team',
+        message: 'Internal server error',
         error: error.message,
       },
     ]
@@ -90,7 +91,7 @@ export function messageError(error: ErrorType): ErrorTypeResponse {
   return [
     500,
     {
-      message: 'Error creating the team',
+      message: 'Internal server error',
       error: 'Unknown error',
     },
   ]
@@ -109,4 +110,14 @@ export function excludeRoutes(
       return middleware(req, res, next)
     }
   }
+}
+
+export function convertDateToISO(
+  dateString: string,
+  toFormat?: string,
+  fromFormat?: string
+) {
+  const toDateFormat = toFormat || 'DD/MM/YYYY'
+  const fromDateFormat = fromFormat || 'MM/DD/YYYY'
+  return moment(dateString, toDateFormat).format(fromDateFormat)
 }

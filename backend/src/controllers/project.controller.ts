@@ -1,15 +1,77 @@
 import { Request, Response } from 'express'
 import { Project } from '../models/project.model'
 import {
+  convertDateToISO,
   messageError,
   optionalFieldBody,
   requeriedFieldsBody,
 } from '../utils/helpers'
 import { project } from '../zod/project.object'
+import { format } from '@formkit/tempo'
+/*
+{
+  "is_completed": false,
+  "is_active": true,
+  "name": "proyecto 5",
+  "price_hour": "5.00",
+  "description": "proyecto 5",
+  "email_client": "cliente12@gmail.com",
+  "init_date": "30/06/2024",
+  "status_uuid": "cb01e587-9501-4370-9fd0-d2ab7b3e07d3",
+  "user_uuid": "5c0cbcf8-3331-4421-972a-5f8f856f2caa",
+  "uuid": "42592ab0-e7c9-4689-99f0-332ef71e92f1",
+  "end_date": "Invalid date",
+  "id_cliente": "47dd4d68-7729-4db4-ba7b-2b827d6657d4",
+  "custom_label_id": null
+}
+*/
+
+function formateReturnProject(bodyFields: any) {
+  const { dataValues: body } = bodyFields
+
+  // Helper function to safely format a date
+  function safeFormatDate(date: string, formatStyle: string, locale: string) {
+    return date ? format(date, formatStyle, locale) : null
+  }
+
+  // Helper function to safely convert a date
+  function safeConvertDate(date: string, fromFormat: string, toFormat: string) {
+    return date ? convertDateToISO(date, fromFormat, toFormat) : null
+  }
+
+  const formatDate = {
+    ...body,
+    dates: {
+      init_date: {
+        full: safeFormatDate(body.init_date, 'full', 'es'),
+        long: safeFormatDate(body.init_date, 'long', 'es'),
+        short: safeFormatDate(body.init_date, 'short', 'es'),
+      },
+      end_date: {
+        full: safeFormatDate(body.end_date, 'full', 'es'),
+        long: safeFormatDate(body.end_date, 'long', 'es'),
+        short: safeFormatDate(body.end_date, 'short', 'es'),
+      },
+    },
+    init_date: safeConvertDate(body.init_date, 'YYYY-MM-DD', 'DD/MM/YYYY'),
+    end_date: safeConvertDate(body.end_date, 'YYYY-MM-DD', 'DD/MM/YYYY'),
+  }
+
+  return formatDate
+}
 
 export async function createProject(req: Request, res: Response) {
   try {
     const { body } = req
+    if (body.init_date) {
+      const validDate = convertDateToISO(body.init_date)
+      body.init_date = validDate
+    }
+
+    if (body.end_date) {
+      const validDate = convertDateToISO(body.end_date)
+      body.end_date = validDate
+    }
 
     const [error, message] = requeriedFieldsBody({
       body: body,
@@ -35,8 +97,10 @@ export async function createProject(req: Request, res: Response) {
     body.status_uuid = 'cb01e587-9501-4370-9fd0-d2ab7b3e07d3' // Creado en BD
     body.user_uuid = req.userId // id del usuario por token
     body.uuid = crypto.randomUUID()
+
     const newProject = await Project.create(body)
-    return res.status(201).json(newProject)
+    const formatProject = formateReturnProject(newProject)
+    return res.status(201).json(formatProject)
   } catch (err) {
     const [error, message] = messageError(err)
     return res.status(error).json(message)

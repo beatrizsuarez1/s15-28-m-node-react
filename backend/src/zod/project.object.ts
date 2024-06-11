@@ -8,8 +8,21 @@ const isDateFormatValid = (dateString: string): boolean => {
 
 // Función de validación de fecha válida
 const isValidDate = (dateString: string): boolean => {
+  // Verifica el formato general con una expresión regular
   const match = dateString.match(/^(\d{2})\/(\d{2})\/(\d{4})$/)
   if (!match) return false
+
+  const day = parseInt(match[2], 10)
+  const month = parseInt(match[1], 10)
+  const year = parseInt(match[3], 10)
+
+  // Verifica que el mes esté en el rango válido
+  if (month < 1 || month > 12) return false
+
+  // Verifica el rango de días de acuerdo al mes
+  const daysInMonth = new Date(year, month, 0).getDate()
+  if (day < 1 || day > daysInMonth) return false
+
   return true
 }
 
@@ -87,7 +100,7 @@ export const project = z.object({
   description: z
     .string()
     .min(2, { message: 'El minimo de caracteres es 2' })
-    .max(50, { message: 'El maximo de caracteres es 50' }),
+    .max(255, { message: 'El maximo de caracteres es 255' }),
   email_client: z
     .string()
     .min(6, { message: 'El minimo de caracteres es 6' })
