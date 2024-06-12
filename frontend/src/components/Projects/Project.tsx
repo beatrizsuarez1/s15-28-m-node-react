@@ -5,7 +5,7 @@ import {
   FormCreateProject,
   ModalShowProject,
   TableProject,
-} from './components';
+} from './components/index.ts';
 import type { IProjectResponse, IShowProject } from '../../types/ProjectsType';
 import { useSearchProject } from '../../hooks/useSearchProject';
 
