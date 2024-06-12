@@ -1,8 +1,18 @@
 import React from 'react';
 import { styled, alpha } from '@mui/material/styles';
-import { AppBar, Badge, Box, IconButton, InputBase, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
+import { Badge, Box, IconButton, InputBase, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
 import { AccountCircle, Menu as MenuIcon, Mail as MailIcon, Search as SearchIcon, MoreVert as MoreIcon, Notifications as NotificationsIcon } from '@mui/icons-material';
+import { useAuthUser } from '../context/auth-context';
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import { stateSideBarProps } from '../types';
 
+
+
+const drawerWidth = 240;
+
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean;
+}
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -44,7 +54,27 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export const Header = () => {
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})<AppBarProps>(({ theme, open }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(['width', 'margin'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
+
+export const Header = ({ open, handleChangeOfStatus }: stateSideBarProps) => {
+
+  const { logout } = useAuthUser()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -69,6 +99,9 @@ export const Header = () => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+
+
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -86,8 +119,9 @@ export const Header = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Perfil</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Mi cuenta</MenuItem>
+      <MenuItem onClick={() => logout()}>Cerrar Sesión</MenuItem>
     </Menu>
   );
 
@@ -144,24 +178,22 @@ export const Header = () => {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <>
+      <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
-            size="large"
-            edge="start"
             color="inherit"
             aria-label="open drawer"
-            sx={{ mr: 2 }}
+            onClick={handleChangeOfStatus}
+            edge="start"
+            sx={{
+              marginRight: 5,
+              ...(open && { display: 'none' }),
+            }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
+          <Typography variant="h6" noWrap component="div">
             LOGO
           </Typography>
           <Search>
@@ -217,6 +249,6 @@ export const Header = () => {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-    </Box>
+    </>
   );
 }

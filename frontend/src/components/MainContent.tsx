@@ -9,7 +9,6 @@ const MainContent: React.FC = () => {
       justifyContent="center"
       alignItems="center"
     >
-      
     </Box>
   );
 };
