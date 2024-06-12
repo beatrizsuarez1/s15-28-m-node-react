@@ -1,22 +1,39 @@
 import { Router } from 'express'
 import { readdirSync } from 'fs'
+import { join } from 'path'
 
-const PATH_ROUTER = __dirname
 const router = Router()
+const PATH_ROUTER = __dirname
 
 const cleanFileName = (fileName: string) => {
-	const file = fileName.split('.').shift()
-	return file
+  if (typeof fileName === 'string') {
+    const file = fileName.split('.').shift()
+    return file
+  } else {
+    return ''
+  }
 }
 
-readdirSync(PATH_ROUTER).filter((fileName) => {
-	const cleanName = cleanFileName(fileName)
-	if (cleanName !== 'index' && cleanName) {
-		void import(`./${cleanName}.router`).then((moduleRouter) => {
-			router.use(`/api/v1/${cleanName}`, moduleRouter.router)
-		})
-	}
-	return true
-})
+const importPromises = readdirSync(PATH_ROUTER)
+  .filter(
+    (fileName) => fileName !== 'index.ts' && fileName.endsWith('.router.ts')
+  )
+  .map((fileName) => import(join(PATH_ROUTER, fileName)))
+
+Promise.all(importPromises)
+  .then((modules) => {
+    modules.forEach((module, index) => {
+      const fileName = readdirSync(PATH_ROUTER).filter(
+        (fileName) => fileName !== 'index.ts' && fileName.endsWith('.router.ts')
+      )[index]
+      if (module && module.router) {
+        const cleanName = cleanFileName(fileName)
+        router.use(`/api/v1/${cleanName}`, module.router)
+      }
+    })
+  })
+  .catch((error) => {
+    console.error('Error al importar módulos de ruta:', error)
+  })
 
 export { router }
