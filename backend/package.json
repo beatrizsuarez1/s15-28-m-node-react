@@ -2,12 +2,13 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon --watch src --ext ts,yaml --exec pnpx ts-node src/index.ts",
     "build": "tsc",
     "lint": "ts-standard --project ./tsconfig.json",
     "fixlint": "pnpm exec ts-standard --fix",
+    "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
