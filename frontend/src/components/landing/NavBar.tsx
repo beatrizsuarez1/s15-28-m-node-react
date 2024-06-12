@@ -1,7 +1,7 @@
 import { AppBar, Box, Link, Stack, Toolbar, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { linkStyles, buttonLogin, buttonRegister } from './styles/styles';
-
+import Logo from '../../assets/Logo';
 
 export const NavBar = () => {
   return (
@@ -14,7 +14,14 @@ export const NavBar = () => {
             component="div"
             sx={{ color: '#eff6ff', display: { xs: 'none', sm: 'block' } }}
           >
-            LOGO
+            <Stack direction='row' justifyContent='center' alignItems='center' spacing={2}>
+            <Logo className='w-16'/>
+            <div>
+              Guardian del Tiempo
+            </div>
+              
+            </Stack>
+            
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Stack

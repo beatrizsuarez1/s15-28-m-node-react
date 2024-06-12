@@ -71,47 +71,47 @@ const Sidebar = ({ open, handleChangeOfStatus }: stateSideBarProps) => {
       <Divider />
       <Toolbar />
       <List>
-        <ListItemButton>
+        <ListItemButton onClick={() => navigate('/dashboard')}>
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
-          <ListItemText primary="Dashboard" onClick={() => navigate('/dashboard')} />
+          <ListItemText primary="Panel"  />
         </ListItemButton>
-        <ListItemButton >
+        <ListItemButton onClick={() => navigate('/dashboard/time-tracker')}>
           <ListItemIcon>
             <AccessTimeIcon />
           </ListItemIcon>
-          <ListItemText primary="Time Tracker" />
+          <ListItemText primary="Control del tiempo" />
         </ListItemButton>
-        <ListItemButton >
+        <ListItemButton onClick={() => navigate("/dashboard/history")}>
           <ListItemIcon>
             <HistoryIcon />
           </ListItemIcon>
-          <ListItemText primary="History" />
+          <ListItemText primary="Historial" />
         </ListItemButton>
-        <ListItemButton >
+        <ListItemButton onClick={() => navigate("/dashboard/report")}>
           <ListItemIcon>
             <BarChartIcon />
           </ListItemIcon>
-          <ListItemText primary="Report" />
+          <ListItemText primary="Reporte" />
         </ListItemButton>
-        <ListItemButton >
+        <ListItemButton onClick={() => navigate('/dashboard/projects')} >
           <ListItemIcon>
             <AssignmentIcon />
           </ListItemIcon>
-          <ListItemText primary="Projects" onClick={() => navigate('/dashboard/projects')} />
+          <ListItemText primary="Projectos" />
         </ListItemButton>
-        <ListItemButton >
+        <ListItemButton onClick={() => navigate("/dashboard/teams")}>
           <ListItemIcon>
             <GroupIcon />
           </ListItemIcon>
-          <ListItemText primary="Teams" />
+          <ListItemText primary="Equipos" />
         </ListItemButton>
-        <ListItemButton>
+        <ListItemButton onClick={() => navigate('/dashboard/clients')}>
           <ListItemIcon>
             <BusinessIcon />
           </ListItemIcon>
-          <ListItemText primary="Clients" onClick={() => navigate('/dashboard/clients')} />
+          <ListItemText primary="Clientes"  />
         </ListItemButton>
       </List>
     </Drawer>
