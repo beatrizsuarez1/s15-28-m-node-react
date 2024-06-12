@@ -1,20 +1,33 @@
-import React from 'react';
-import { Box, CssBaseline } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, CssBaseline, Divider } from '@mui/material';
+import Sidebar from '../components/sidebar/sidebar';
 import { Header } from '../components/Header';
-// import Sidebar from '../components/sidebar/Sidebar';
-// import { useAuth } from '../context/auth-context';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // const { isLoggedIn } = useAuth();
+  const [open, setOpen] = useState(false)
+
+  const handleChangeOfStatus = () => {
+    setOpen((open) => !open);
+  };
 
   return (
     <>
-      <Box sx={{ display: 'flex', flexDirection: 'row-reverse'}}>
+      <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <Header />
-        {/* <Sidebar /> */}
+        <Header 
+          open={open} 
+          handleChangeOfStatus={handleChangeOfStatus} 
+        />
+        <Sidebar 
+          open={open} 
+          handleChangeOfStatus={handleChangeOfStatus} 
+        />
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+          {children}
+        </Box>
+
       </Box>
-      {children}
+
     </>
   );
 };

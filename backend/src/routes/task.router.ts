@@ -1,5 +1,5 @@
-import { Router } from 'express';
-import { validateJWT } from '../middlewares/validateJWT.middleware';
+import { Router } from 'express'
+import { validateJWT } from '../middlewares/validateJWT.middleware'
 import {
   createTask,
   getTaskById,
@@ -7,17 +7,17 @@ import {
   updateTask,
   disableTask,
   searchTasks,
-  deleteTask
-} from '../controllers/task.controller';
+  deleteTask,
+} from '../controllers/task.controller'
 
-const router = Router();
+const router = Router()
 
-router.post('/',validateJWT, createTask);
-router.get('/',getAllTasks);
-router.get('/search/:task',searchTasks);
-router.get('/:id' , getTaskById);
-router.patch('/:id',validateJWT, updateTask);
-router.patch('/disable/:id',validateJWT, disableTask);
-router.delete('/:id',validateJWT, deleteTask)
+router.post('/', validateJWT, createTask)
+router.get('/', getAllTasks)
+router.get('/search/:name', searchTasks)
+router.get('/:id', getTaskById)
+router.patch('/:id', validateJWT, updateTask)
+router.patch('/disable/:id', validateJWT, disableTask)
+router.delete('/:id', validateJWT, deleteTask)
 
-export {router};
+export { router }

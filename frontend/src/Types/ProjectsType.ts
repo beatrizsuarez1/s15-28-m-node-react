@@ -14,6 +14,17 @@ export interface IShowProject {
   price_hour: string
 }
 
+export interface IClient {
+  avatar: null,
+  birthdate: string,
+  email: string,
+  first_name: string,
+  last_name: string,
+  phone: string,
+  uuid: string,
+  role_id: number
+}
+
 export interface IProjectResponse {
   uuid?:            string;
   init_date:       null;

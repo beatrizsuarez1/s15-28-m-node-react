@@ -26,6 +26,8 @@ tags:
     description: Operations about team
   - name: Project
     description: Operations about project
+  - name: Task
+    description: Operations about task
   - name: Stopwatch
     description: Operations about stopwatch
   - name: Utils
@@ -163,7 +165,36 @@ components:
         task_id:
           type: string
           example: 12345678-1234-1234-1234-111111111111
-
+    Task:
+      type: object
+      properties:
+        uuid:
+          type: string
+          example: 12345678-1234-1234-1234-111111111111
+        init_date:
+          type: string
+          example: 01/01/2024
+        end_date:
+          type: string
+          example: 05/01/2024
+        name:
+          type: string
+          example: New Task
+        is_completed:
+          type: boolean
+          example: true
+        is_active:
+          type: boolean
+          example: true
+        status_uuid:
+          type: string
+          example: 12345678-1234-1234-1234-111111111111
+        label_id:
+          type: string
+          example: 12345678-1234-1234-1234-111111111111
+        project_uuid:
+          type: string
+          example: 12345678-1234-1234-1234-111111111111
   parameters:
     UUID:
       name: id
@@ -171,7 +202,15 @@ components:
       required: true
       schema:
         type: string
-        example: 12345678-1234-1234-1234-111111111111
+        example: 12345678-1234-1234-1234-
+
+    Search:
+      name: name
+      in: path
+      required: true
+      schema:
+        type: string
+        example: search string
 
   responses:
     400:
@@ -774,5 +813,157 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Stopwatch'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /task:
+    get:
+      summary: Get all tasks
+      tags:
+        - Task
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Tasks retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '500':
+          $ref: '#/components/responses/500'
+
+    post:
+      summary: Create a new task
+      tags:
+        - Task
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        description: Task creation data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '201':
+          description: Task successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '500':
+          $ref: '#/components/responses/500'
+  /task/{id}:
+    get:
+      summary: Get a task by ID
+      tags:
+        - Task
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      responses:
+        '200':
+          description: Task retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      summary: Update a task
+      tags:
+        - Task
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      requestBody:
+        description: Task update data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '200':
+          description: Task successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/400'
+    delete:
+      summary: Delete a task
+      tags:
+        - Task
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      responses:
+        '200':
+          description: Task deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Task deleted successfully
+        '500':
+          $ref: '#/components/responses/500'
+  /task/disable/{id}:
+    patch:
+      summary: Disable a task
+      tags:
+        - Task
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      requestBody:
+        description: Disable Task
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '200':
+          description: Task successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+  /taks/search/{name}:
+    get:
+      summary: Get tasks by name
+      tags:
+        - Task
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/Search'
+      responses:
+        '200':
+          description: Task retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
