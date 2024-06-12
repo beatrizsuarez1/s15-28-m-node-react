@@ -106,15 +106,16 @@ export const Project = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredProjects.length > 0 ? (
+            {filteredProjects.length > 0  ? (
               filteredProjects.map((project, index) => (
                 <TableProject key={index} data={project} modal={modal} />
               ))
-            ) : (
+            ) : projects.length !== 0 &&
               <p className="absolute top-5 left-[30%] text-red-400 text-lg">
                 Proyecto no encontrado
               </p>
-            )}
+           
+          }
             {filteredProjects.length === 0 &&
               projects.map((project, index) => (
                 <TableProject key={index} data={project} modal={modal} />
@@ -122,7 +123,11 @@ export const Project = () => {
           </tbody>
         </table>
       </div>
-
+      {filteredProjects.length === 0 && projects.length === 0 && (
+          <p className="text-center text-stone-400 text-lg">
+            Cargando...
+          </p>
+        )}
       <ModalShowProject
         showModal={showModal}
         data={modalData}
