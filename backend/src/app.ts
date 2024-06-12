@@ -1,11 +1,10 @@
 import cors from 'cors'
-import express from 'express'
+import express, { Request, Response, NextFunction } from 'express'
 import morgan from 'morgan'
 import { router } from './routes'
 import { isApiKey } from './middlewares/apiKey.middleware'
 import { excludeRoutes } from './utils/helpers'
 import cookieParser from 'cookie-parser'
-
 const app = express()
 
 // Middlewares
@@ -23,5 +22,10 @@ app.get('/', (_, res) => {
 const routesWithoutApiKey = ['/api/v1/docs', '/api/docs', '/']
 app.use(excludeRoutes(routesWithoutApiKey, isApiKey))
 app.use(router)
+
+app.use((err: any, _req: Request, res: Response, _next: NextFunction): void => {
+  console.error('Unhandled error:', err)
+  res.status(500).send('Something broke!')
+})
 
 export default app
