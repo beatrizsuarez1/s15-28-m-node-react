@@ -244,3 +244,27 @@ export async function deleteTask(req: Request, res: Response) {
     }
   }
 }
+
+export async function getTasksByProject(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    if (!id.length)
+      return res.status(404).json({ message: 'Se requiere el id del proyecto' })
+    let project_uuid = id
+    const getalltask = await Task.findAll({ where: { project_uuid } });
+
+    if (getalltask.length === 0)
+      return res.status(404).json({ message: 'No existen tareas disponibles para este proyecto' })
+
+    res.status(200).json({
+      message: 'Tareas obbtenidas correctamente',
+      data: getalltask,
+    })
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(500).json({ message: error.message })
+    } else {
+      return res.status(500).json({ message: 'Ocurrio un error desconocido' })
+    }
+  }
+}

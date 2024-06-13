@@ -35,21 +35,17 @@ const GroupTask = ({ status }: GroupTypes) => {
                 </Typography>
                 <Demo>
                     <List>
-                        <ListItem
-                            secondaryAction={
-                                <IconButton edge="end" aria-label="Iniciar">
-                                    <PlayCircleIcon />
-                                </IconButton>
-
-                            }
-                        >
-
+                        <ListItem>
                             <ListItemText
                                 primary="Task Project"
                             />
                             <ListItemText
                                 primary="00:00:00"
                             />
+
+                            <IconButton edge="end" aria-label="Iniciar">
+                                <PlayCircleIcon />
+                            </IconButton>
 
                         </ListItem>
                         <Divider />
