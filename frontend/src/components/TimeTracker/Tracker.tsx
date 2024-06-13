@@ -14,8 +14,7 @@ export default function Tracker() {
     const [open, setOpen] = useState(false);
     const [options, setOptions] = useState<readonly Project[]>([]);
     const loading = open && options.length === 0;
-    console.log(options)
-
+    
     useEffect(() => {
         let active = true;
 
