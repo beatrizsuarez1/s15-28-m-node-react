@@ -3,7 +3,7 @@ info:
   title: s15-28-m-node-react
   version: 1.0.0
   description: |-
-    [NameApp] Freelance es una plataforma innovadora diseñada para optimizar la gestión de proyectos y tareas de freelancers. Con [NameApp] Freelance, los profesionales independientes pueden manejar eficientemente múltiples proyectos simultáneamente, lo que les permite maximizar su productividad y aumentar sus ingresos.
+    Guardianes del Tiempo Freelance es una plataforma innovadora diseñada para optimizar la gestión de proyectos y tareas de freelancers. Con Guardianes del Tiempo Freelance, los profesionales independientes pueden manejar eficientemente múltiples proyectos simultáneamente, lo que les permite maximizar su productividad y aumentar sus ingresos.
 
     Esta api realiza: 
     - Operaciones CRUD, para el manejo de los datos de los usuarios.
