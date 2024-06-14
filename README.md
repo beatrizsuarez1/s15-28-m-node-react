@@ -29,5 +29,5 @@ Nuestra App de Gestión de Tiempo está diseñada para transformar la manera en 
 | Melisa Yunis| QA Tester | [![LinkedIn](https://img.shields.io/badge/linkedin%20-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/melisa-yunis/) [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Melisayunis) |
 
 ## 🚀 Cómo correr el proyecto
-[1-] Clonar el proyecto al pc: `git clone https://github.com/beatrizsuarez1/s15-28-m-node-react.git`
-Para iniciar el proyecto ejecutar `pnpm run dev` o `npm run dev`, recuerda instalar los paquetes antes de ejecutar con `pnpm install`
+- [] Clonar el proyecto al pc: `git clone https://github.com/beatrizsuarez1/s15-28-m-node-react.git`
+- [x]Para iniciar el proyecto ejecutar `pnpm run dev` o `npm run dev`, recuerda instalar los paquetes antes de ejecutar con `pnpm install`
