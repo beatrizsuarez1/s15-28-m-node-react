@@ -42,17 +42,17 @@ Nuestra App de Gestión de Tiempo está diseñada para transformar la manera en 
 ![React](https://img.shields.io/static/v1?style=for-the-badge&message=React&color=222222&logo=React&logoColor=61DAFB&label=)
 ![Typescript](https://img.shields.io/badge/react%20router%20dom%20-%20pr?style=for-the-badge&logo=reactrouter&logoColor=%23ffffff&labelColor=%23cb3234&color=%23cb3234)
 ![Material-UI](https://img.shields.io/static/v1?style=for-the-badge&message=Material-UI&color=0081CB&logo=Material-UI&logoColor=FFFFFF&label=)
-![Tailwind](https://img.shields.io/badge/react%20router%20dom%20-%20pr?style=for-the-badge&logo=reactrouter&logoColor=%23ffffff&labelColor=%23cb3234&color=%23cb3234)
-![Zod](https://img.shields.io/badge/react%20router%20dom%20-%20pr?style=for-the-badge&logo=reactrouter&logoColor=%23ffffff&labelColor=%23cb3234&color=%23cb3234)
-![Framer-motion](https://img.shields.io/badge/react%20router%20dom%20-%20pr?style=for-the-badge&logo=reactrouter&logoColor=%23ffffff&labelColor=%23cb3234&color=%23cb3234)
+![Tailwind]()
+![Zod]()
+![Framer-motion]()
 ![Axios](https://img.shields.io/badge/axios%20-%20pr?style=for-the-badge&logo=axios&logoColor=%23ffffff&labelColor=%234c2882&color=%234c2882)
 ![Figma](https://img.shields.io/badge/figma%20-%20pr?style=for-the-badge&logo=figma&logoColor=%23ffffff&labelColor=%23F24E1E&color=%23F24E1E)
 
 ### Backend
 ![Node JS](https://img.shields.io/badge/Node%20JS-%20pr?style=for-the-badge&logo=nodedotjs&logoColor=%23ffffff&labelColor=%20%2344883e&color=%20%2344883e)
 ![Express](https://img.shields.io/badge/Express-%20pr?style=for-the-badge&logo=express&logoColor=%23ffffff&labelColor=%20%23000000&color=%20%23000000)
-![Railway](https://img.shields.io/badge/ORM%20-%20pr?style=for-the-badge&logoColor=%23ffffff&labelColor=%20%230979B0&color=%20%230979B0)
-![Swagger](https://img.shields.io/badge/SEQUELIZE%20-%20pr?style=for-the-badge&logo=sequelize&logoColor=%23ffffff&labelColor=%2352B0E7&color=%2352B0E7)
+![Railway]()
+![Swagger]()
 ![Postgre SQL](https://img.shields.io/badge/postgre%20SQL%20-%20pr?style=for-the-badge&logo=postgresql&logoColor=%23ffffff&labelColor=%234169E1&color=%234169E1)
 
 ### Testing
@@ -60,7 +60,7 @@ Nuestra App de Gestión de Tiempo está diseñada para transformar la manera en 
 ![Google Drive](https://img.shields.io/badge/Google%20Drive%20-%20pr?style=for-the-badge&logo=googledrive&logoColor=%23ffffff&labelColor=%234285F4&color=%234285F4)
 
 ## 🚀 Gestión del Proyecto
-![ClickUp](https://img.shields.io/badge/Jira%20-%20pr?style=for-the-badge&logo=jirasoftware&logoColor=%23ffffff&labelColor=%230052CC&color=%230052CC)
+![ClickUp]()
 
 ## 🚀 Comunicación
 ![Slack](https://img.shields.io/badge/Slack%20-%20pr?style=for-the-badge&logo=slack&logoColor=%23ffffff&labelColor=%234A154B&color=%234A154B)
