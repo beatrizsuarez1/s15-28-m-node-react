@@ -16,7 +16,7 @@ Nuestra App de Gestión de Tiempo está diseñada para transformar la manera en 
 </p> 
 
 ## 🚀 Funcionalidades implementadas 
-####### (al 14/06/24)
+#### (al 14/06/24)
 - Registro y login, como Freelancer o Cliente.
 - Creación y administración de proyectos.
 - Gestión de fechas.
