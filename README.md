@@ -15,7 +15,8 @@ Los freelancers enfrentan desafíos únicos:
 Nuestra App de Gestión de Tiempo está diseñada para transformar la manera en que los freelancers gestionan sus proyectos, mejorando la productividad, la transparencia y la eficiencia. Estamos seguros de que esta herramienta será una adición valiosa para cualquier profesional independiente.<br>
 </p> 
 
-## 🚀 Funcionalidades implementadas ####### (al 14/06/24)
+## 🚀 Funcionalidades implementadas 
+####### (al 14/06/24)
 - Registro y login, como Freelancer o Cliente.
 - Creación y administración de proyectos.
 - Gestión de fechas.
