@@ -1,5 +1,7 @@
 > s15-28-m-node-react
 
+![logo-color]()
+
 # Guardianes del Tiempo
 #### Nos complace presentarles nuestra innovadora App de Gestión de Tiempo, diseñada específicamente para satisfacer las necesidades únicas de los freelancers. <br>
 <p align="justify"> En un mundo donde la eficiencia y la organización son clave para el éxito, nuestra app se convierte en una herramienta esencial para gestionar proyectos de manera efectiva.<br>
@@ -26,6 +28,6 @@ Nuestra App de Gestión de Tiempo está diseñada para transformar la manera en 
 | Malvina Christiansen| QA Tester | [![LinkedIn](https://img.shields.io/badge/linkedin%20-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/malvina-christiansen/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app) [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Malvina989) |
 | Melisa Yunis| QA Tester | [![LinkedIn](https://img.shields.io/badge/linkedin%20-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/melisa-yunis/) [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Melisayunis) |
 
-
-
+## 🚀 Cómo correr el proyecto
+[1-] Clonar el proyecto al pc: `git clone https://github.com/beatrizsuarez1/s15-28-m-node-react.git`
 Para iniciar el proyecto ejecutar `pnpm run dev` o `npm run dev`, recuerda instalar los paquetes antes de ejecutar con `pnpm install`
