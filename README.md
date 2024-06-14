@@ -38,6 +38,16 @@ Nuestra App de Gestión de Tiempo está diseñada para transformar la manera en 
 
 ## 🚀 Tecnologías Utilizadas
 
+|  Rama  | Tecnologías |
+  |---|---|
+  | UX/UI  | ![Figma](https://img.shields.io/badge/figma%20-%20pr?style=for-the-badge&logo=figma&logoColor=%23ffffff&labelColor=%23F24E1E&color=%23F24E1E) |
+  | Front End  | ![React](https://img.shields.io/static/v1?style=for-the-badge&message=React&color=222222&logo=React&logoColor=61DAFB&label=) ![Typescript](https://img.shields.io/badge/react%20router%20dom%20-%20pr?style=for-the-badge&logo=reactrouter&logoColor=%23ffffff&labelColor=%23cb3234&color=%23cb3234) Router !Bootstrap|
+  | Back End  | !Java !Spring !Hibernate !JWT|
+  | Base de datos | !MySQL|
+  | Testing  | !Selenium !POSTMAN|
+  | Management  | !Trello|
+
+
 ### Frontend
 ![React](https://img.shields.io/static/v1?style=for-the-badge&message=React&color=222222&logo=React&logoColor=61DAFB&label=)
 ![Typescript](https://img.shields.io/badge/react%20router%20dom%20-%20pr?style=for-the-badge&logo=reactrouter&logoColor=%23ffffff&labelColor=%23cb3234&color=%23cb3234)
