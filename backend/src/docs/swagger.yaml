@@ -3,7 +3,7 @@ info:
   title: s15-28-m-node-react
   version: 1.0.0
   description: |-
-    [NameApp] Freelance es una plataforma innovadora diseñada para optimizar la gestión de proyectos y tareas de freelancers. Con [NameApp] Freelance, los profesionales independientes pueden manejar eficientemente múltiples proyectos simultáneamente, lo que les permite maximizar su productividad y aumentar sus ingresos.
+    Guardianes del Tiempo Freelance es una plataforma innovadora diseñada para optimizar la gestión de proyectos y tareas de freelancers. Con Guardianes del Tiempo Freelance, los profesionales independientes pueden manejar eficientemente múltiples proyectos simultáneamente, lo que les permite maximizar su productividad y aumentar sus ingresos.
 
     Esta api realiza: 
     - Operaciones CRUD, para el manejo de los datos de los usuarios.
@@ -26,6 +26,10 @@ tags:
     description: Operations about team
   - name: Project
     description: Operations about project
+  - name: Task
+    description: Operations about task
+  - name: Stopwatch
+    description: Operations about stopwatch
   - name: Utils
     description: Operations about utils
 
@@ -149,27 +153,36 @@ components:
         email_client:
           type: string
           example: johndoe@example.com
+    Stopwatch:
+      type: object
+      properties:
+        uuid:
+          type: string
+          example: 12345678-1234-1234-1234-111111111111
+        time:
+          type: string
+          example: 00:10:00
+        task_id:
+          type: string
+          example: 12345678-1234-1234-1234-111111111111
     Task:
       type: object
       properties:
         uuid:
           type: string
-          format: uuid
-          example: "123e4567-e89b-12d3-a456-426614174000"
+          example: 12345678-1234-1234-1234-111111111111
         init_date:
           type: string
-          format: date-time
-          example: "2023-01-01T00:00:00Z"
+          example: 01/01/2024
         end_date:
           type: string
-          format: date-time
-          example: "2023-12-31T23:59:59Z"
+          example: 05/01/2024
         name:
           type: string
-          example: "Task Name"
+          example: New Task
         is_completed:
           type: boolean
-          example: false
+          example: true
         is_active:
           type: boolean
           example: true
@@ -219,7 +232,15 @@ components:
       required: true
       schema:
         type: string
-        example: 12345678-1234-1234-1234-111111111111
+        example: 12345678-1234-1234-1234-
+
+    Search:
+      name: name
+      in: path
+      required: true
+      schema:
+        type: string
+        example: search string
 
 
   responses:
@@ -734,22 +755,115 @@ paths:
                     example: Project deleted successfully
           '500':
             $ref: '#/components/responses/500'
+
+  /stopwatch/{uuid}:
+    get:
+      summary: Get a stopwatch
+      tags:
+        - Stopwatch
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      responses:
+        '200':
+          description: Stopwatch retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stopwatch'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+
+    put:
+      summary: Update a stopwatch
+      tags:
+        - Stopwatch
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      requestBody:
+        description: Stopwatch update data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Stopwatch'
+      responses:
+        '200':
+          description: Stopwatch successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stopwatch'
+        '400':
+          $ref: '#/components/responses/400'
+
+    delete:
+      summary: Delete a stopwatch
+      tags:
+        - Stopwatch
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/UUID'
+      responses:
+        '200':
+          description: Stopwatch deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Stopwatch deleted successfully
+        '500':
+          $ref: '#/components/responses/500'
+  /stopwatch:
+    post:
+      summary: Create a new stopwatch
+      tags:
+        - Stopwatch
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        description: Stopwatch creation data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Stopwatch'
+      responses:
+        '201':
+          description: Stopwatch successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stopwatch'
+        '500':
+          $ref: '#/components/responses/500'
+
   /task:
     get:
       summary: Get all tasks
       tags:
         - Task
+      security:
+        - ApiKeyAuth: []
       responses:
         '200':
           description: Tasks retrieved successfully
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Task'
+                $ref: '#/components/schemas/Task'
         '500':
           $ref: '#/components/responses/500'
+
     post:
       summary: Create a new task
       tags:
@@ -794,6 +908,8 @@ paths:
       summary: Get a task by ID
       tags:
         - Task
+      security:
+        - ApiKeyAuth: []
       parameters:
         - $ref: '#/components/parameters/UUID'
       responses:
@@ -807,7 +923,6 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-
     patch:
       summary: Update a task
       tags:
@@ -858,7 +973,6 @@ paths:
                     example: Task deleted successfully
         '500':
           $ref: '#/components/responses/500'
-
   /task/disable/{id}:
     patch:
       summary: Disable a task
@@ -869,19 +983,15 @@ paths:
       parameters:
         - $ref: '#/components/parameters/UUID'
       requestBody:
-        description: Task disable data
+        description: Disable Task
         required: true
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                status:
-                  type: string
-                  example: "disabled"
+              $ref: '#/components/schemas/Task'
       responses:
         '200':
-          description: Task successfully disabled
+          description: Task successfully updated
           content:
             application/json:
               schema:

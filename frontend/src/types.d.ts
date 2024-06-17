@@ -40,3 +40,8 @@ export interface AuthContextType {
   setCookie: Function
 }
 
+export interface stateSideBarProps {
+  open: boolean ,
+  handleChangeOfStatus: () => void
+
+}

@@ -22,7 +22,7 @@ export async function createTask(req: Request, res: Response) {
     return res.status(201).json({ message: 'tarea creada exitosamente', newtask })
   } catch (error) {
     if (error instanceof Error) {
-      return res.status(500).json({ message: error.message });
+      return res.status(500).json({ message: error.message })
     }
     return res.status(500).json({ message: 'la creacion de la factura tiene tiene un error interno del Servidor' });
   }
@@ -34,7 +34,7 @@ export async function getAllTasks(_req: Request, res: Response) {
     if (!getalltask) return res.status(404).json({ message: 'no te traes la tarea deseada' })
     res.status(200).json({
       message: 'Se traen todas las tareas correctamente',
-      data: getalltask
+      data: getalltask,
     })
   } catch (error) {
     if (error instanceof Error) {
@@ -52,15 +52,21 @@ export async function getTaskById(req: Request, res: Response) {
     if (getByIdtask == null) return res.status(404).json({ message: 'La Tarea no ah sido encontrada.' })
     if (!getByIdtask) return res.status(404).json({ message: "task not found" });
     return res.status(201).json({
-      message: "La Tarea ha sido encontrada correctamente", data: getByIdtask,
-    });
+      message: 'La Tarea ha sido encontrada correctamente',
+      data: getByIdtask,
+    })
   } catch (error) {
     if (error instanceof Error) {
       if (error.message.includes('invalid input syntax for type uuid'))
         return res.status(400).json({ message: 'El UUID proporcionado es inválido. Asegúrese de que tiene el formato correcto. :D' });
       return res.status(500).json({ message: error.message })
     } else {
-      return res.status(500).json({ message: 'La búsqueda de la tarea por id tiene un error interno del Servidor.' })
+      return res
+        .status(500)
+        .json({
+          message:
+            'La búsqueda de la tarea por id tiene un error interno del Servidor.',
+        })
     }
   }
 }
@@ -83,8 +89,8 @@ export async function searchTasks(req: Request, res: Response) {
     if (searchtask == null) return res.status(404).json({ message: 'No existe registro del nombre' })
     return res.status(200).json({
       message: 'buscado correctamente',
-      data: searchtask
-    });
+      data: searchtask,
+    })
   } catch (error) {
     if (error instanceof Error) {
       return res.status(500).json({ message: error.message })
@@ -108,12 +114,19 @@ export async function updateTask(req: Request, res: Response) {
     if (!existingTask) return res.status(404).json({ message: 'La tarea no ha sido encontrada' });
     await existingTask.update(task);    
     const updateTask = await task.update(req.body)
-    return res.status(201).json({ message: 'la tarea fue actualizada', updateTask })
+    return res
+      .status(201)
+      .json({ message: 'la tarea fue actualizada', updateTask })
   } catch (error) {
     if (error instanceof Error) {
       return res.status(500).json({ message: error.message })
     } else {
-      return res.status(500).json({ message: 'La actualización de la tarea tiene un error interno del Servidor.' })
+      return res
+        .status(500)
+        .json({
+          message:
+            'La actualización de la tarea tiene un error interno del Servidor.',
+        })
     }
   }
 }
@@ -126,14 +139,21 @@ export async function disableTask(req: Request, res: Response) {
     if (validate !== true) return res.status(400).json({ message: 'falta un dato en el cuerpo de la peticion', validate })
     if (!task) return res.status(404).json({ message: 'la tarea no existe', task });
     const deletedTask = await task.update({ isactive: false })
-    return res.status(201).json({ message: 'la tarea fue eliminada correctamente', deletedTask });
+    return res
+      .status(201)
+      .json({ message: 'la tarea fue eliminada correctamente', deletedTask })
   } catch (error) {
     if (error instanceof Error) {
       if (error.message.includes('task.update is not a function'))
         return res.status(400).json({ message: 'El UUID proporcionado es inválido. Asegúrese de que tiene el formato correcto. :D' });
       return res.status(500).json({ message: error.message });
     } else {
-      return res.status(500).json({ message: 'La actualización de la tarea a estado desactivador tiene un error interno del Servidor.' });
+      return res
+        .status(500)
+        .json({
+          message:
+            'La actualización de la tarea a estado desactivador tiene un error interno del Servidor.',
+        })
     }
   }
 }
@@ -146,15 +166,24 @@ export async function deleteTask(req: Request, res: Response) {
     if (validate !== true) return res.status(400).json({ message: 'falta un dato en el cuerpo de la peticion', validate })
     if (!task) return res.status(404).json({ message: 'la tarea no existe', task });
     const deletedTask = await task.destroy(req.body)
-    return res.status(201).json({ message: 'la tarea consultada fue eliminada correctamente', deletedTask })
+    return res
+      .status(201)
+      .json({
+        message: 'la tarea consultada fue eliminada correctamente',
+        deletedTask,
+      })
   } catch (error) {
     if (error instanceof Error) {
       if (error.message.includes('invalid input syntax for type uuid'))
         return res.status(400).json({ message: 'El UUID proporcionado es inválido. Asegúrese de que tiene el formato correcto. :D' });
       return res.status(500).json({ message: error.message });
     } else {
-      return res.status(500).json({ message: 'En la eliminacion de la tarea existe un error interno del servidor' });
+      return res
+        .status(500)
+        .json({
+          message:
+            'En la eliminacion de la tarea existe un error interno del servidor',
+        })
     }
   }
 }
-

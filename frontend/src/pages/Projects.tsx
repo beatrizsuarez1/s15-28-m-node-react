@@ -1,7 +1,9 @@
-import { Project } from '../components/Projects/Project'
+import { Project } from "../components/Projects/Project";
 
 export const Projects = () => {
   return (
-    <Project />
-  )
-}
+    <div className="container mx-auto">
+      <Project />
+    </div>
+  );
+};

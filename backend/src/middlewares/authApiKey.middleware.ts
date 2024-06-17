@@ -21,10 +21,14 @@ export function authenticateToken(
   next: NextFunction
 ) {
   const token = req.cookies.token as string
-  if (!token) return res.sendStatus(401)
+  if (!token)
+    return res.status(403).json({ message: 'No token provided, access denied' })
 
   jwt.verify(token, Secret, (err, user) => {
-    if (err) return res.sendStatus(403)
+    if (err)
+      return res
+        .status(403)
+        .json({ message: 'No token provided, access denied' })
     req.userId = (user as UserPayload).id
     next()
   })

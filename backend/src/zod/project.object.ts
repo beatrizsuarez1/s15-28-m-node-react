@@ -8,15 +8,22 @@ const isDateFormatValid = (dateString: string): boolean => {
 
 // Función de validación de fecha válida
 const isValidDate = (dateString: string): boolean => {
+  // Verifica el formato general con una expresión regular
   const match = dateString.match(/^(\d{2})\/(\d{2})\/(\d{4})$/)
   if (!match) return false
-  const [, day, month, year] = match
-  const date = new Date(`${year}-${month}-${day}`)
-  return (
-    date.getDate() === parseInt(day) &&
-    date.getMonth() + 1 === parseInt(month) &&
-    date.getFullYear() === parseInt(year)
-  )
+
+  const day = parseInt(match[2], 10)
+  const month = parseInt(match[1], 10)
+  const year = parseInt(match[3], 10)
+
+  // Verifica que el mes esté en el rango válido
+  if (month < 1 || month > 12) return false
+
+  // Verifica el rango de días de acuerdo al mes
+  const daysInMonth = new Date(year, month, 0).getDate()
+  if (day < 1 || day > daysInMonth) return false
+
+  return true
 }
 
 // Función de validación de que no sea menor a 10 años
@@ -28,7 +35,7 @@ const isNotLessThan10Years = (dateString: string): boolean => {
   const currentDate = new Date()
   const tenYearsAgo = new Date()
   tenYearsAgo.setFullYear(currentDate.getFullYear() - 10)
-  return date <= tenYearsAgo
+  return !(date <= tenYearsAgo)
 }
 
 // Función de validación de que no sea hoy o en el futuro
@@ -52,10 +59,10 @@ export const project = z.object({
       message: 'La fecha debe ser válida.',
     })
     .refine(isNotLessThan10Years, {
-      message: 'La fecha no debe ser menor a 10 años.',
+      message: 'La fecha debe ser menor a 10 años.',
     })
     .refine(isNotTodayOrFuture, {
-      message: 'La fecha no debe ser hoy o en el futuro.',
+      message: 'La fecha debe ser hoy o en el futuro.',
     }),
   end_date: z
     .string()
@@ -69,7 +76,7 @@ export const project = z.object({
       message: 'La fecha no debe ser menor a 10 años.',
     })
     .refine(isNotTodayOrFuture, {
-      message: 'La fecha no debe ser hoy o en el futuro.',
+      message: 'La fecha debe ser hoy o en el futuro.',
     }),
   name: z
     .string()
@@ -79,7 +86,7 @@ export const project = z.object({
     .number()
     .positive({ message: 'El valor debe ser positivo.' })
     .min(0.01, { message: 'El minimo de caracteres es 0.01' })
-    .max(1000, { message: 'El maximo de caracteres es 1000' })
+    .max(9999, { message: 'El maximo de caracteres es 9999' })
     .refine(
       (val) => {
         const stringValue = val.toString()
@@ -93,7 +100,7 @@ export const project = z.object({
   description: z
     .string()
     .min(2, { message: 'El minimo de caracteres es 2' })
-    .max(50, { message: 'El maximo de caracteres es 50' }),
+    .max(255, { message: 'El maximo de caracteres es 255' }),
   email_client: z
     .string()
     .min(6, { message: 'El minimo de caracteres es 6' })

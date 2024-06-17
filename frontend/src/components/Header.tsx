@@ -1,50 +1,43 @@
 import React from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import { AppBar, Badge, Box, IconButton, InputBase, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
-import { AccountCircle, Menu as MenuIcon, Mail as MailIcon, Search as SearchIcon, MoreVert as MoreIcon, Notifications as NotificationsIcon } from '@mui/icons-material';
+import { styled } from '@mui/material/styles';
+import { Badge, Box, IconButton, Menu, MenuItem, Stack, Toolbar, Typography } from '@mui/material';
+import { AccountCircle, Menu as MenuIcon, Mail as MailIcon, MoreVert as MoreIcon, Notifications as NotificationsIcon, Logout } from '@mui/icons-material';
+import { useAuthUser } from '../context/auth-context';
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import { stateSideBarProps } from '../types';
+import Logo from '../assets/Logo';
 
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
+
+const drawerWidth = 240;
+
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean;
+}
+
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})<AppBarProps>(({ theme, open }) => ({
+  background: '#1D4ED8',
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(['width', 'margin'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
+export const Header = ({ open, handleChangeOfStatus }: stateSideBarProps) => {
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
-
-export const Header = () => {
+  const { logout } = useAuthUser()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -69,6 +62,9 @@ export const Header = () => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+
+
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -86,8 +82,9 @@ export const Header = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Perfil</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Mi cuenta</MenuItem>
+      <MenuItem onClick={() => logout()}>Cerrar Sesión</MenuItem>
     </Menu>
   );
 
@@ -114,7 +111,7 @@ export const Header = () => {
             <MailIcon />
           </Badge>
         </IconButton>
-        <p>Messages</p>
+        <p>Mensajes</p>
       </MenuItem>
       <MenuItem>
         <IconButton
@@ -126,7 +123,7 @@ export const Header = () => {
             <NotificationsIcon />
           </Badge>
         </IconButton>
-        <p>Notifications</p>
+        <p>Notificaciones</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -138,41 +135,47 @@ export const Header = () => {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p>Perfil</p>
       </MenuItem>
+      <MenuItem onClick={() => logout()}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <Logout />
+        </IconButton>
+        <p>Cerrar Sesión</p>
+      </MenuItem>
+
     </Menu>
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <>
+      <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
-            size="large"
-            edge="start"
             color="inherit"
             aria-label="open drawer"
-            sx={{ mr: 2 }}
+            onClick={handleChangeOfStatus}
+            edge="start"
+            sx={{
+              marginRight: 5,
+              ...(open && { display: 'none' }),
+            }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
-            LOGO
-          </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
+          <Stack direction='row' justifyContent='center' alignItems='center' spacing={2}>
+            <Logo className='w-16' />
+            <Typography variant="h6" component="h1" sx={{ display: { xs: 'none', sm: 'block' } }}>
+              Guardian del Tiempo
+            </Typography>
+
+          </Stack>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
@@ -217,6 +220,6 @@ export const Header = () => {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-    </Box>
+    </>
   );
 }
